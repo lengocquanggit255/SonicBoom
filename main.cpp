@@ -69,7 +69,7 @@ int main(int argc, char* argv[])
 		else
 		{
 			bool Quit_Menu = false;
-			bool Play_Again = false;
+			bool Play = false;
 
 			Mix_PlayMusic(gMenuMusic, IS_REPEATITIVE);// play menu music
 			while (!Quit_Menu)
@@ -85,7 +85,7 @@ int main(int argc, char* argv[])
 
 					bool Quit_Game = false;
 					// kiểm tra xem chuột đang làm gì, ở đâu với Buttons
-					HandlePlayButton(&e_mouse, PlayButton, Quit_Menu, Play_Again, gClick);
+					HandlePlayButton(&e_mouse, PlayButton, Quit_Menu, Play, gClick);
 						
 					HandleHelpButton(&e_mouse, gBackButton,
 									 HelpButton, BackButton, 
@@ -96,6 +96,7 @@ int main(int argc, char* argv[])
 
 					if (Quit_Game == true)
 					{
+						Close();
 						return 0;
 					}
 				}
@@ -114,7 +115,7 @@ int main(int argc, char* argv[])
 				SDL_RenderPresent(gRenderer); //present the rendered textures to the screen
 			}
 
-			while (Play_Again)// handle play again
+			while (Play)// handle play again
 			{
 				srand(time(NULL));
 				int time = 0;
@@ -138,6 +139,7 @@ int main(int argc, char* argv[])
 
 				bool Quit = false;
 				bool Game_State = true;
+
 				while (!Quit)
 				{
 					if (Game_State)
@@ -149,7 +151,7 @@ int main(int argc, char* argv[])
 							if (e.type == SDL_QUIT)
 							{
 								Quit = true;
-								Play_Again = false;
+								Play = false;
 							}
 
 							HandlePauseButton(&e, gRenderer, gContinueButton,
@@ -164,8 +166,8 @@ int main(int argc, char* argv[])
 						RenderScrollingBackground(OffsetSpeed_Bkgr, gBackgroundTexture, gRenderer);
 						RenderScrollingGround(OffsetSpeed_Ground, acceleration, gGroundTexture, gRenderer);
 
-
 						character.Move();
+
 						SDL_Rect* currentClip_Character = nullptr;
 						if (character.OnGround())
 						{
@@ -215,8 +217,8 @@ int main(int argc, char* argv[])
 					}
 				}
 
-				DrawEndGameSelection(gLoseTexture, &e, gRenderer, Play_Again);
-				if (!Play_Again)
+				DrawEndGameSelection(gLoseTexture, &e, gRenderer, Play);
+				if (!Play)
 				{
 					enemy1.~Enemy();
 					enemy2.~Enemy();

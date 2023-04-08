@@ -32,7 +32,8 @@ void UpdateHighScore(std::string path,
 	HighScoreFile << newHighScore;
 }
 
-int UpdateGameTimeAndScore(int& time,
+int UpdateGameTimeAndScore(
+	int& time,
 	int& speed,
 	int& score)
 {
@@ -231,18 +232,18 @@ void HandleContinueButton(Button ContinueButton,
 			{
 				switch (e->type)
 				{
-				case SDL_MOUSEMOTION:
-					ContinueButton.currentSprite = BUTTON_MOUSE_OVER;
+					case SDL_MOUSEMOTION:
+						ContinueButton.currentSprite = BUTTON_MOUSE_OVER;
+						break;
+					case SDL_MOUSEBUTTONDOWN :
+					{
+						ContinueButton.currentSprite = BUTTON_MOUSE_OVER;
+						Mix_PlayChannel(MIX_CHANNEL, gClick, NOT_REPEATITIVE);
+						Mix_ResumeMusic();
+						Game_State = true;
+						Back_To_Game = true;
+					}
 					break;
-				case SDL_MOUSEBUTTONDOWN:
-				{
-					ContinueButton.currentSprite = BUTTON_MOUSE_OVER;
-					Mix_PlayChannel(MIX_CHANNEL, gClick, NOT_REPEATITIVE);
-					Mix_ResumeMusic();
-					Game_State = true;
-					Back_To_Game = true;
-				}
-				break;
 				}
 			}
 			else
@@ -271,18 +272,18 @@ void HandlePauseButton(SDL_Event* e,
 	{
 		switch (e->type)
 		{
-		case SDL_MOUSEMOTION:
-			PauseButton.currentSprite = BUTTON_MOUSE_OVER;
-			break;
-		case SDL_MOUSEBUTTONDOWN:
-			PauseButton.currentSprite = BUTTON_MOUSE_OVER;
-			Mix_PlayChannel(MIX_CHANNEL, gClick, NOT_REPEATITIVE);
-			Mix_PauseMusic();
-			break;
-		case SDL_MOUSEBUTTONUP:
-			Game_State = false;
-			HandleContinueButton(ContinueButton, gContinueButtonTexture, e, gRenderer, gContinueButton, Game_State, gClick);
-			break;
+			case SDL_MOUSEMOTION:
+				PauseButton.currentSprite = BUTTON_MOUSE_OVER;
+				break;
+			case SDL_MOUSEBUTTONDOWN:
+				PauseButton.currentSprite = BUTTON_MOUSE_OVER;
+				Mix_PlayChannel(MIX_CHANNEL, gClick, NOT_REPEATITIVE);
+				Mix_PauseMusic();
+				break;
+			case SDL_MOUSEBUTTONUP:
+				Game_State = false;
+				HandleContinueButton(ContinueButton, gContinueButtonTexture, e, gRenderer, gContinueButton, Game_State, gClick);
+				break;
 		}
 	}
 	else

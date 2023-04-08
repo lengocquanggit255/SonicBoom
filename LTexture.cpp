@@ -89,7 +89,7 @@ bool LTexture::LoadFromFile(std::string path, SDL_Renderer *gRenderer)
 // Tất cả Texture đã được khởi tạo ngay từ đầu, chỉ đợi để render
 void LTexture::Render(int x, int y, SDL_Renderer* gRenderer, SDL_Rect* clip)
 {
-	SDL_Rect renderSpace = { x, y, mWidth, mHeight };
+	SDL_Rect renderSpace = { x, y, mWidth, mHeight };// x,y is the position in the window
 
 	if (clip != nullptr)
 	{
