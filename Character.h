@@ -13,6 +13,9 @@ public:
 	static const int JUMP_SPEED = 8;
 	static const int FALL_SPEED = 8;
 
+	bool canDoubleJump = true;
+	int jumpCount = 0;
+
 	Character();
 
 	bool OnGround();
