@@ -335,52 +335,21 @@ bool CheckColission(Character character,
 	SDL_Rect* enemy_clip)
 {
 	bool collide = false;
-	
-	int left_a = character.GetPosX();
-	int right_a = character.GetPosX() + char_clip->w;
-	int top_a = character.GetPosY();
-	int bottom_a = character.GetPosY() + char_clip->h;
 
 	if (enemy.GetType() == ON_GROUND_ENEMY)
 	{
-		const int TRASH_PIXEL_1 = 25;
-		const int TRASH_PIXEL_2 = 30;
 
-		int left_b = enemy.GetPosX();
-		int right_b = enemy.GetPosX() + enemy.GetWidth();
-		int top_b = enemy.GetPosY();
-		int bottom_b = enemy.GetPosY() + enemy.GetHeight();
+		double distance = (character.GetPosX() + (char_clip->w/2) - enemy.GetPosX() - enemy.GetWidth()/2) *  (character.GetPosX() + (char_clip->w/2) - enemy.GetPosX() - enemy.GetWidth()/2)
+						+ (character.GetPosY() + (char_clip->h/2) - enemy.GetPosY() - (enemy.GetHeight()/2)) *  (character.GetPosY() + (char_clip->h/2) - enemy.GetPosY() - (enemy.GetHeight()/2));
 
-		if (right_a - TRASH_PIXEL_1 >= left_b && left_a + TRASH_PIXEL_1 <= right_b)//ktra có chạm nhau k
-		{
-			if (bottom_a - TRASH_PIXEL_2 >= top_b)
-			{
-				collide = true;
-			}
-		}
+		if(distance <= 1000)collide = true;
 	}
 	else
 	{
-		const int TRASH_PIXEL_1 = 22;
-		const int TRASH_PIXEL_2 = 18;
+		double distance = (character.GetPosX() + (char_clip->w/2) - enemy.GetPosX() - (enemy_clip->w/2)) *  (character.GetPosX() + (char_clip->w/2) - enemy.GetPosX() - (enemy_clip->w/2))
+						+ (character.GetPosY() + (char_clip->w/2) - enemy.GetPosY() - (enemy_clip->w/2)) *  (character.GetPosY() + (char_clip->w/2) - enemy.GetPosY() - (enemy_clip->w/2));
 
-		int left_b = enemy.GetPosX() + TRASH_PIXEL_1;
-		int right_b = enemy.GetPosX() + enemy_clip->w - TRASH_PIXEL_1;
-		int top_b = enemy.GetPosY();
-		int bottom_b = enemy.GetPosY() + enemy_clip->h - TRASH_PIXEL_2;
-
-		if (right_a >= left_b && left_a <= right_b)
-		{
-			if (top_a <= bottom_b && top_a >= top_b)
-			{
-				collide = true;
-			}
-			
-			if (bottom_a >= bottom_b && bottom_a <= top_b)
-			{
-				collide = true;
-			}
-		}
+		if(distance <= 444)collide = true;
 	}
 
 	return collide;
