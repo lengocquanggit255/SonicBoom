@@ -53,7 +53,10 @@ void HandleContinueButton(Button ContinueButton,
     SDL_Event* e,
     SDL_Renderer* gRenderer,
     SDL_Rect(&gContinueButton)[BUTTON_TOTAL],
-    bool& Game_State, Mix_Chunk* gClick);
+    bool& Game_State,
+    bool& Quit,
+    bool &Play,
+    Mix_Chunk* gClick);
 
 void HandlePauseButton(SDL_Event* e,
     SDL_Renderer* gRenderer,
@@ -62,6 +65,8 @@ void HandlePauseButton(SDL_Event* e,
     Button ContinueButton,
     LTexture gContinueButtonTexture,
     bool& game_state,
+    bool& Quit,
+    bool &Play,
     Mix_Chunk* gClick);
 
 void GenerateEnemy(Enemy& enemy1,

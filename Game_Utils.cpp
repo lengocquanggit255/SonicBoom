@@ -95,16 +95,11 @@ void HandlePlayButton(SDL_Event* e,
 	bool& Play,
 	Mix_Chunk* gClick)
 {
-	if (e->type == SDL_QUIT)
-	{
-		QuitMenu = true;
-	}
-
 	if (PlayButton.IsInside(e, COMMON_BUTTON))// check if the mouse is inside the button
 	{
 		switch (e->type)
 		{
-		case SDL_MOUSEMOTION: // if inside playbutton and moving, button over
+		default:
 			PlayButton.currentSprite = BUTTON_MOUSE_OVER;
 			break;
 		case SDL_MOUSEBUTTONDOWN:// if inside playbutton and click
@@ -115,7 +110,7 @@ void HandlePlayButton(SDL_Event* e,
 			break;
 		}
 	}
-	else// if the mouse is outside the button
+	else
 	{
 		PlayButton.currentSprite = BUTTON_MOUSE_OUT;
 	}
@@ -131,14 +126,14 @@ void HandleHelpButton(SDL_Event* e,
 	bool &Quit_game, 
 	Mix_Chunk *gClick)
 {
-	if (HelpButton.IsInside(e, COMMON_BUTTON))// check if the mouse is inside the help button
+	if (HelpButton.IsInside(e, COMMON_BUTTON))
 	{
 		switch (e->type)
 		{
-		case SDL_MOUSEMOTION:// if inside help button and moving, button over
+		default:
 			HelpButton.currentSprite = BUTTON_MOUSE_OVER;
 			break;
-		case SDL_MOUSEBUTTONDOWN:// if inside help button and click
+		case SDL_MOUSEBUTTONDOWN:
 			HelpButton.currentSprite = BUTTON_MOUSE_OVER;
 			Mix_PlayChannel(MIX_CHANNEL, gClick, NOT_REPEATITIVE);
 
@@ -152,28 +147,27 @@ void HandleHelpButton(SDL_Event* e,
 					{
 						ReadDone = true;
 						Quit_game = true;
-						Close();
 					}
 					else if (BackButton.IsInside(e, BACK_BUTTON))
 					{
 						switch (e->type)
 						{
-						case SDL_MOUSEMOTION:// if inside playbutton and moving, button over
+						default:
 							BackButton.currentSprite = BUTTON_MOUSE_OVER;
 							break;
-						case SDL_MOUSEBUTTONDOWN:// if inside playbutton and click
+						case SDL_MOUSEBUTTONDOWN:
 							BackButton.currentSprite = BUTTON_MOUSE_OVER;
 							Mix_PlayChannel(MIX_CHANNEL, gClick, NOT_REPEATITIVE);
 							ReadDone = true;
 							break;
 						}
 					}
-					else// if the mouse is outside the back button
+					else
 					{
 						BackButton.currentSprite = BUTTON_MOUSE_OUT;
 					}
 
-					gInstructionTexture.Render(0, 0, gRenderer); // Render instruction texture, gInstructionTexture was init in Loadfunction in main
+					gInstructionTexture.Render(0, 0, gRenderer);
 					
 					SDL_Rect* currentClip_Back = &gBackButton[BackButton.currentSprite];
 					BackButton.Render(currentClip_Back, gRenderer, gBackButtonTexture);
@@ -183,8 +177,7 @@ void HandleHelpButton(SDL_Event* e,
 			}
 			break;
 		}
-	}
-	else// if the mouse is outside the help button
+	}else
 	{
 		HelpButton.currentSprite = BUTTON_MOUSE_OUT;
 	}
@@ -199,7 +192,7 @@ void HandleExitButton(SDL_Event* e,
 	{
 		switch (e->type)
 		{
-		case SDL_MOUSEMOTION:
+		default:
 			ExitButton.currentSprite = BUTTON_MOUSE_OVER;
 			break;
 		case SDL_MOUSEBUTTONDOWN:
@@ -221,32 +214,38 @@ void HandleContinueButton(Button ContinueButton,
 	SDL_Renderer* gRenderer,
 	SDL_Rect(&gContinueButton)[BUTTON_TOTAL],
 	bool& Game_State,
+	bool& Quit,
+	bool &Play,
 	Mix_Chunk* gClick)
 {
 	bool Back_To_Game = false;
 	while (!Back_To_Game)
 	{
+		if (e->type == SDL_QUIT)
+		{
+			Quit = true;
+			Play = false;
+			break;
+		}
 		do
 		{
 			if (ContinueButton.IsInside(e, SMALL_BUTTON))
 			{
 				switch (e->type)
 				{
-					case SDL_MOUSEMOTION:
+					default:
 						ContinueButton.currentSprite = BUTTON_MOUSE_OVER;
 						break;
 					case SDL_MOUSEBUTTONDOWN :
-					{
+					
 						ContinueButton.currentSprite = BUTTON_MOUSE_OVER;
 						Mix_PlayChannel(MIX_CHANNEL, gClick, NOT_REPEATITIVE);
 						Mix_ResumeMusic();
 						Game_State = true;
 						Back_To_Game = true;
-					}
-					break;
+					    break;
 				}
-			}
-			else
+			}else
 			{
 				ContinueButton.currentSprite = BUTTON_MOUSE_OUT;
 			}
@@ -255,6 +254,7 @@ void HandleContinueButton(Button ContinueButton,
 			ContinueButton.Render(currentClip_Continue, gRenderer, gContinueButtonTexture);
 
 			SDL_RenderPresent(gRenderer);
+
 		} while ((SDL_WaitEvent(e) != 0 && e->type == SDL_MOUSEBUTTONDOWN) || e->type == SDL_MOUSEMOTION);
 	}
 }
@@ -265,7 +265,9 @@ void HandlePauseButton(SDL_Event* e,
 	Button& PauseButton, 
 	Button ContinueButton, 
 	LTexture gContinueButtonTexture, 
-	bool &Game_State, 
+	bool &Game_State,
+	bool &Quit,
+	bool &Play,
 	Mix_Chunk *gClick)
 {
 	if (PauseButton.IsInside(e, SMALL_BUTTON))
@@ -282,7 +284,7 @@ void HandlePauseButton(SDL_Event* e,
 				break;
 			case SDL_MOUSEBUTTONUP:
 				Game_State = false;
-				HandleContinueButton(ContinueButton, gContinueButtonTexture, e, gRenderer, gContinueButton, Game_State, gClick);
+				HandleContinueButton(ContinueButton, gContinueButtonTexture, e, gRenderer, gContinueButton, Game_State, Quit, Play, gClick);
 				break;
 		}
 	}
