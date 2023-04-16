@@ -1,5 +1,6 @@
 #include "Enemy.h"
 
+//Khởi tạo enemy với tọa độ random
 Enemy::Enemy(int _type)
 {
 	posX = 0;
@@ -68,9 +69,14 @@ void Enemy::LoadFromFile(std::string path, SDL_Renderer* gRenderer)
 	EnemyTexture = tmpTexture;
 }
 
+//reset tọa độ của enemy liên tục để render ra enemy mới
 void Enemy::Move(const int &acceleration)
 {
-	posX -= (ENEMY_SPEED + acceleration);
+	if (type == IN_AIR_ENEMY)
+	{
+		posX -= (ENEMY_SPEED + acceleration + 2);
+	}else posX -= (ENEMY_SPEED + acceleration);
+	
 	if (posX + MAX_ENEMY_WIDTH < 0)
 	{
 		posX = rand() % (SCREEN_WIDTH + ENEMY_POSITION_RANGE) + SCREEN_WIDTH;

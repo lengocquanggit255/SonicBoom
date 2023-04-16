@@ -43,7 +43,8 @@ void Character::HandleEvent(SDL_Event& e, Mix_Chunk *gJump)
     }
 }
 
-
+//When the player reaches the maximum height of their jump, change the player's status to FALL so that they start falling
+//When the player lands on the ground, Reset the jump counter and allow the player to perform another double jump
 void Character::Move()
 {
     if (status == JUMP && posY >= MAX_HEIGHT)
@@ -65,6 +66,7 @@ void Character::Move()
     }
 }
 
+//Render nhân vật 
 void Character::Render(SDL_Rect* currentClip, SDL_Renderer *gRenderer, LTexture gCharacterTexture)
 {
 	gCharacterTexture.Render(posX, posY, gRenderer, currentClip);

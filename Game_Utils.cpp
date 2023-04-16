@@ -56,6 +56,7 @@ int UpdateGameTimeAndScore(
 	return time;
 }
 
+//Render 2 ảnh, 1 ảnh bắt đàu ở 1 vị trí âm, ảnh sau bắt đầu ở vị trí của ảnh trước cộng chiều rộng 
 void RenderScrollingBackground(double& offsetSpeed,
 	LTexture &gBackgroundTexture,
 	SDL_Renderer* gRenderer)
@@ -70,25 +71,27 @@ void RenderScrollingBackground(double& offsetSpeed,
 	{
 		offsetSpeed = 0;
 	}
-	gBackgroundTexture.Render(offsetSpeed, 0, gRenderer);
+	gBackgroundTexture.Render(               offsetSpeed                 , 0, gRenderer);
 	gBackgroundTexture.Render(offsetSpeed + gBackgroundTexture.GetWidth(), 0, gRenderer);
 	
 }
-
-void RenderScrollingGround(int& speed,
+//Render 2 ảnh, 1 ảnh bắt đàu ở 1 vị trí âm, ảnh sau bắt đầu ở vị trí của ảnh trước cộng chiều rộng
+//Ground speed sẽ bằng tốc độ chạy của nvat
+void RenderScrollingGround(int& offsetSpeed,
 	const int acceleration,
 	LTexture gGroundTexture,
 	SDL_Renderer* gRenderer)
 {
-	speed -= GROUND_SPEED + acceleration;
-	if (speed < -gGroundTexture.GetWidth())
+	offsetSpeed -= GROUND_SPEED + acceleration;
+	if (offsetSpeed < -gGroundTexture.GetWidth())
 	{
-		speed = 0;
+		offsetSpeed = 0;
 	}
-	gGroundTexture.Render(speed, 0, gRenderer);
-	gGroundTexture.Render(speed + gGroundTexture.GetWidth(), 0, gRenderer);
+	gGroundTexture.Render(        offsetSpeed                    , 0, gRenderer);
+	gGroundTexture.Render(offsetSpeed + gGroundTexture.GetWidth(), 0, gRenderer);
 }
 
+//set tình trạng của button để render
 void HandlePlayButton(SDL_Event* e,
 	Button& PlayButton,
 	bool& QuitMenu,
@@ -116,6 +119,7 @@ void HandlePlayButton(SDL_Event* e,
 	}
 }
 
+//set tình trạng của button và render
 void HandleHelpButton(SDL_Event* e,
 	SDL_Rect(&gBackButton)[BUTTON_TOTAL],
 	Button& HelpButton, 
@@ -183,6 +187,7 @@ void HandleHelpButton(SDL_Event* e,
 	}
 }
 
+//set tình trạng của button để render
 void HandleExitButton(SDL_Event* e,
 	Button& ExitButton,
 	bool& Quit,
@@ -208,6 +213,7 @@ void HandleExitButton(SDL_Event* e,
 	}
 }
 
+//set tình trạng của button và render
 void HandleContinueButton(Button ContinueButton,
 	LTexture gContinueButtonTexture,
 	SDL_Event* e,
@@ -259,6 +265,7 @@ void HandleContinueButton(Button ContinueButton,
 	}
 }
 
+//set tình trạng của button để render
 void HandlePauseButton(SDL_Event* e,
 	SDL_Renderer* gRenderer, 
 	SDL_Rect (&gContinueButton)[BUTTON_TOTAL], 

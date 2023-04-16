@@ -68,11 +68,9 @@ void Game :: gameLoop()
 			if (e_mouse.type == SDL_QUIT)
 			{
 				Quit_Menu = true;
-				Quit_Game = true;
-				Close();
+				Play = false;
 			}
 
-			// kiểm tra xem chuột đang làm gì, ở đâu với Buttons
 			HandlePlayButton(&e_mouse, PlayButton, Quit_Menu, Play, gClick);
 				
 			HandleHelpButton(&e_mouse, gBackButton,
@@ -81,16 +79,9 @@ void Game :: gameLoop()
 								gRenderer, Quit_Game, gClick);
 
 			HandleExitButton(&e_mouse, ExitButton, Quit_Menu, gClick);
-
-			if (Quit_Game == true)
-			{
-				Close();
-				return;
-			}
 		}
 
 		gMenuTexture.Render(0, 0, gRenderer);
-		// từ việc xác định chuột đang có ở bên trong không thì render frame tương ứng
 		SDL_Rect* currentClip_Play = &gPlayButton[PlayButton.currentSprite];
 		PlayButton.Render(currentClip_Play, gRenderer, gPlayButtonTexture);
 
@@ -148,6 +139,7 @@ void Game :: gameLoop()
 
 					character.HandleEvent(e, gJump);//change the status to jump
 				}
+
 				SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
 				SDL_RenderClear(gRenderer);
 
@@ -167,7 +159,6 @@ void Game :: gameLoop()
 					currentClip_Character = &gCharacterClips[0];
 					character.Render(currentClip_Character, gRenderer, gCharacterTexture);
 				}
-
 
 				enemy1.Move(acceleration);
 				enemy1.Render(gRenderer);
@@ -217,7 +208,7 @@ void Game :: gameLoop()
     return;
 }
 
-bool Game ::  Init()
+bool Game::Init()
 {
 	bool success = true;
 
@@ -550,4 +541,6 @@ void Game::Close()
 	IMG_Quit();
 	Mix_Quit();
 	SDL_Quit();
+
+	std::cout << "Free everything!" << std::endl;
 }
