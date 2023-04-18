@@ -69,7 +69,7 @@ void Enemy::LoadFromFile(std::string path, SDL_Renderer* gRenderer)
 	EnemyTexture = tmpTexture;
 }
 
-//reset tọa độ của enemy liên tục để render ra enemy mới
+//reset tọa độ của enemy liên tục để enemy di chuyển cùng background
 void Enemy::Move(const int &acceleration)
 {
 	if (type == IN_AIR_ENEMY)

@@ -156,7 +156,7 @@ void Game :: gameLoop()
 				}
 				else
 				{
-					currentClip_Character = &gCharacterClips[0];
+					currentClip_Character = &gCharacterClips[3];
 					character.Render(currentClip_Character, gRenderer, gCharacterTexture);
 				}
 
@@ -458,35 +458,25 @@ bool Game :: LoadMedia()
 			}
 			else
 			{
-				gCharacterClips[0].x = 57 * 0;
+				gCharacterClips[0].x = 53 * 0;
 				gCharacterClips[0].y = 0;
-				gCharacterClips[0].w = 57;
+				gCharacterClips[0].w = 53;
 				gCharacterClips[0].h = 57;
 
-				gCharacterClips[1].x = 57 * 1;
+				gCharacterClips[1].x = 53 * 1;
 				gCharacterClips[1].y = 0;
-				gCharacterClips[1].w = 57;
+				gCharacterClips[1].w = 53;
 				gCharacterClips[1].h = 57;
 
-				gCharacterClips[2].x = 57 * 2;
+				gCharacterClips[2].x = 53 * 2;
 				gCharacterClips[2].y = 0;
-				gCharacterClips[2].w = 57;
+				gCharacterClips[2].w = 53;
 				gCharacterClips[2].h = 57;
 
-				gCharacterClips[3].x = 57 * 3;
+				gCharacterClips[3].x = 53 * 3;
 				gCharacterClips[3].y = 0;
-				gCharacterClips[3].w = 57;
+				gCharacterClips[3].w = 53;
 				gCharacterClips[3].h = 57;
-
-				gCharacterClips[4].x = 57 * 4;
-				gCharacterClips[4].y = 0;
-				gCharacterClips[4].w = 57;
-				gCharacterClips[4].h = 57;
-
-				gCharacterClips[5].x = 57 * 5;
-				gCharacterClips[5].y = 0;
-				gCharacterClips[5].w = 57;
-				gCharacterClips[5].h = 57;
 			}
 
 			if (!gLoseTexture.LoadFromFile("imgs/background/lose.png", gRenderer))
