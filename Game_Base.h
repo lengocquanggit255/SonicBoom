@@ -21,7 +21,7 @@
 
 #define TIME_MAX 1000
 #define GROUND 430
-#define MAX_HEIGHT 150
+#define MAX_HEIGHT 250
 
 #define BASE_OFFSET_SPEED 0
 
@@ -38,7 +38,7 @@
 #define ON_GROUND_ENEMY 0
 
 #define SLOW_FRAME_CHAR 6// 24 frame
-#define SLOW_FRAME_ENEMY 4
+#define SLOW_FRAME_ENEMY 6
 
 #define IS_REPEATITIVE -1
 #define NOT_REPEATITIVE 0
@@ -47,7 +47,7 @@
 #define COMMON_BUTTON 2
 #define BACK_BUTTON 3
 
-const std::string WINDOW_TITLE = "Dino in jungle";
+const std::string WINDOW_TITLE = "Sonic Boom";
 
 const int SCREEN_WIDTH = 928;
 const int SCREEN_HEIGHT = 522;
@@ -81,7 +81,7 @@ const int HIGH_SCORE_POSY = 80;
 
 const double LAYER_SPEED = 1.5;
 const int RUNNING_FRAMES = 4;
-const int FLYING_FRAMES = 5;
+const int FLYING_FRAMES = 4;
 
 
 void LogError(std::string msg, int error_code = SDL_ERROR);

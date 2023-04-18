@@ -74,7 +74,7 @@ void Enemy::Move(const int &acceleration)
 {
 	if (type == IN_AIR_ENEMY)
 	{
-		posX -= (ENEMY_SPEED + acceleration + 2);
+		posX -= (ENEMY_SPEED + acceleration + 2.2);
 	}else posX -= (ENEMY_SPEED + acceleration);
 	
 	if (posX + MAX_ENEMY_WIDTH < 0)

@@ -310,32 +310,27 @@ void GenerateEnemy(Enemy& enemy1,
 	enemy1.LoadFromFile("imgs/enemy/cactus.png", gRenderer);
 	enemy2.LoadFromFile("imgs/enemy/cactus.png", gRenderer);
 	enemy3.LoadFromFile("imgs/enemy/bat.png", gRenderer);
-	{
-		gEnemyClips[0].x = 43 * 3;
+	
+		gEnemyClips[0].x = 0;
 		gEnemyClips[0].y = 0;
-		gEnemyClips[0].w = 43;
+		gEnemyClips[0].w = 64.25;
 		gEnemyClips[0].h = 30;
 
-		gEnemyClips[1].x = 43 * 4;
+		gEnemyClips[1].x = 64.25;
 		gEnemyClips[1].y = 0;
-		gEnemyClips[1].w = 43;
+		gEnemyClips[1].w = 64.25;
 		gEnemyClips[1].h = 30;
 
-		gEnemyClips[2].x = 43 * 2;
+		gEnemyClips[2].x = 64.25 * 2;
 		gEnemyClips[2].y = 0;
-		gEnemyClips[2].w = 43;
+		gEnemyClips[2].w = 64.25;
 		gEnemyClips[2].h = 30;
 
-		gEnemyClips[3].x = 43;
+		gEnemyClips[3].x = 64.25 * 3;
 		gEnemyClips[3].y = 0;
-		gEnemyClips[3].w = 43;
+		gEnemyClips[3].w = 64.25;
 		gEnemyClips[3].h = 30;
 
-		gEnemyClips[4].x = 0;
-		gEnemyClips[4].y = 0;
-		gEnemyClips[4].w = 43;
-		gEnemyClips[4].h = 30;
-	}
 }
 
 bool CheckColission(Character character,
@@ -351,14 +346,14 @@ bool CheckColission(Character character,
 		double distance = (character.GetPosX() + (char_clip->w/2) - enemy.GetPosX() - enemy.GetWidth()/2) *  (character.GetPosX() + (char_clip->w/2) - enemy.GetPosX() - enemy.GetWidth()/2)
 						+ (character.GetPosY() + (char_clip->h/2) - enemy.GetPosY() - (enemy.GetHeight()/2)) *  (character.GetPosY() + (char_clip->h/2) - enemy.GetPosY() - (enemy.GetHeight()/2));
 
-		if(distance <= 1000)collide = true;
+		if(distance <= 1500)collide = true;
 	}
 	else
 	{
 		double distance = (character.GetPosX() + (char_clip->w/2) - enemy.GetPosX() - (enemy_clip->w/2)) *  (character.GetPosX() + (char_clip->w/2) - enemy.GetPosX() - (enemy_clip->w/2))
 						+ (character.GetPosY() + (char_clip->w/2) - enemy.GetPosY() - (enemy_clip->w/2)) *  (character.GetPosY() + (char_clip->w/2) - enemy.GetPosY() - (enemy_clip->w/2));
 
-		if(distance <= 444)collide = true;
+		if(distance <= 2100)collide = true;
 	}
 
 	return collide;
