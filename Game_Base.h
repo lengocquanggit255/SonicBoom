@@ -37,7 +37,7 @@
 #define IN_AIR_ENEMY 1
 #define ON_GROUND_ENEMY 0
 
-#define SLOW_FRAME_CHAR 4// 24 frame
+#define SLOW_FRAME_CHAR 6// 24 frame
 #define SLOW_FRAME_ENEMY 4
 
 #define IS_REPEATITIVE -1

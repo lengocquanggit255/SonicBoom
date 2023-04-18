@@ -156,7 +156,7 @@ void Game :: gameLoop()
 				}
 				else
 				{
-					currentClip_Character = &gCharacterClips[3];
+					currentClip_Character = &gCharacterClips[frame_Character / SLOW_FRAME_CHAR];
 					character.Render(currentClip_Character, gRenderer, gCharacterTexture);
 				}
 
