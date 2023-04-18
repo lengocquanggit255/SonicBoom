@@ -304,7 +304,8 @@ void HandlePauseButton(SDL_Event* e,
 void GenerateEnemy(Enemy& enemy1,
 	Enemy& enemy2,
 	Enemy& enemy3,
-	SDL_Rect(&gEnemyClips)[FLYING_FRAMES], 
+	SDL_Rect(&gEnemyClips)[FLYING_ENEMY_FRAMES],
+	SDL_Rect(&gGroundEnemyClips)[GROUND_ENEMY_FRAMES], 
 	SDL_Renderer * gRenderer)
 {
 	enemy1.LoadFromFile("imgs/enemy/cactus.png", gRenderer);
@@ -331,6 +332,26 @@ void GenerateEnemy(Enemy& enemy1,
 		gEnemyClips[3].w = 64.25;
 		gEnemyClips[3].h = 30;
 
+		gGroundEnemyClips[0].x = 0;
+		gGroundEnemyClips[0].y = 0;
+		gGroundEnemyClips[0].w = 29.25;
+		gGroundEnemyClips[0].h = 57;
+
+		gGroundEnemyClips[1].x = 29.25;
+		gGroundEnemyClips[1].y = 0;
+		gGroundEnemyClips[1].w = 29.25;
+		gGroundEnemyClips[1].h = 57;
+
+		gGroundEnemyClips[2].x = 29.25 * 2;
+		gGroundEnemyClips[2].y = 0;
+		gGroundEnemyClips[2].w = 29.25;
+		gGroundEnemyClips[2].h = 57;
+
+		gGroundEnemyClips[3].x = 29.25 * 3;
+		gGroundEnemyClips[3].y = 0;
+		gGroundEnemyClips[3].w = 29.25;
+		gGroundEnemyClips[3].h = 57;
+
 }
 
 bool CheckColission(Character character,
@@ -343,17 +364,17 @@ bool CheckColission(Character character,
 	if (enemy.GetType() == ON_GROUND_ENEMY)
 	{
 
-		double distance = (character.GetPosX() + (char_clip->w/2) - enemy.GetPosX() - enemy.GetWidth()/2) *  (character.GetPosX() + (char_clip->w/2) - enemy.GetPosX() - enemy.GetWidth()/2)
-						+ (character.GetPosY() + (char_clip->h/2) - enemy.GetPosY() - (enemy.GetHeight()/2)) *  (character.GetPosY() + (char_clip->h/2) - enemy.GetPosY() - (enemy.GetHeight()/2));
+		double distance = (character.GetPosX() + (char_clip->w/2) - enemy.GetPosX() - (enemy_clip->w/2)) *  (character.GetPosX() + (char_clip->w/2) - enemy.GetPosX() - (enemy_clip->w/2))
+						+ (character.GetPosY() + (char_clip->w/2) - enemy.GetPosY() - (enemy_clip->w/2)) *  (character.GetPosY() + (char_clip->w/2) - enemy.GetPosY() - (enemy_clip->w/2));
 
-		if(distance <= 1500)collide = true;
+		if(distance <= 1200)collide = true;
 	}
-	else
+	else if(enemy.GetType() == IN_AIR_ENEMY)
 	{
 		double distance = (character.GetPosX() + (char_clip->w/2) - enemy.GetPosX() - (enemy_clip->w/2)) *  (character.GetPosX() + (char_clip->w/2) - enemy.GetPosX() - (enemy_clip->w/2))
 						+ (character.GetPosY() + (char_clip->w/2) - enemy.GetPosY() - (enemy_clip->w/2)) *  (character.GetPosY() + (char_clip->w/2) - enemy.GetPosY() - (enemy_clip->w/2));
 
-		if(distance <= 2100)collide = true;
+		if(distance <= 1550)collide = true;
 	}
 
 	return collide;
@@ -364,18 +385,20 @@ bool CheckEnemyColission(Character character,
 	Enemy enemy2, 
 	Enemy enemy3,
 	SDL_Rect* char_clip,
-	SDL_Rect* enemy_clip
+	SDL_Rect* FlyingEnemy_clip,
+	SDL_Rect* GroundEnemy_clip1,
+	SDL_Rect* GroundEnemy_clip2
 	)
 {
-	if (CheckColission(character, char_clip, enemy1))
+	if (CheckColission(character, char_clip, enemy1, GroundEnemy_clip1))
 	{
 		return true;
 	}
-	if (CheckColission(character, char_clip, enemy2))
+	if (CheckColission(character, char_clip, enemy2, GroundEnemy_clip2))
 	{
 		return true;
 	}
-	if (CheckColission(character, char_clip, enemy3, enemy_clip))
+	if (CheckColission(character, char_clip, enemy3, FlyingEnemy_clip))
 	{
 		return true;
 	}
@@ -394,7 +417,7 @@ void ControlCharFrame(int &frame)
 void ControlEnemyFrame(int &frame)
 {
 	frame += FRAME_INCREASEMENT;
-	if (frame / SLOW_FRAME_ENEMY >= FLYING_FRAMES)
+	if (frame / SLOW_FRAME_ENEMY >= FLYING_ENEMY_FRAMES)
 	{
 		frame = 0;
 	}

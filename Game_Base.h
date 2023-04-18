@@ -81,7 +81,8 @@ const int HIGH_SCORE_POSY = 80;
 
 const double LAYER_SPEED = 1.5;
 const int RUNNING_FRAMES = 4;
-const int FLYING_FRAMES = 4;
+const int FLYING_ENEMY_FRAMES = 4;
+const int GROUND_ENEMY_FRAMES = 4;
 
 
 void LogError(std::string msg, int error_code = SDL_ERROR);

@@ -22,7 +22,8 @@ SDL_Rect gPauseButton[BUTTON_TOTAL];
 SDL_Rect gContinueButton[BUTTON_TOTAL];
 SDL_Rect gPlayAgainButton[BUTTON_TOTAL];
 SDL_Rect gCharacterClips[RUNNING_FRAMES];
-SDL_Rect gEnemyClips[FLYING_FRAMES];
+SDL_Rect gFlyingEnemyClips[FLYING_ENEMY_FRAMES];
+SDL_Rect gGroundEnemyClips[GROUND_ENEMY_FRAMES];
 
 LTexture gMenuTexture;
 LTexture gInstructionTexture;
@@ -110,7 +111,7 @@ void Game :: gameLoop()
 		Enemy enemy3(IN_AIR_ENEMY);
 		
 		Mix_PlayMusic(gMusic, IS_REPEATITIVE);
-		GenerateEnemy(enemy1, enemy2, enemy3, gEnemyClips, gRenderer);
+		GenerateEnemy(enemy1, enemy2, enemy3, gFlyingEnemyClips, gGroundEnemyClips, gRenderer);
 
 		//refers to the rate at which an object's position changes over time
 		int OffsetSpeed_Ground = BASE_OFFSET_SPEED;
@@ -149,26 +150,21 @@ void Game :: gameLoop()
 				character.Move();
 
 				SDL_Rect* currentClip_Character = nullptr;
-				if (character.OnGround())
-				{
-					currentClip_Character = &gCharacterClips[frame_Character / SLOW_FRAME_CHAR];
-					character.Render(currentClip_Character, gRenderer, gCharacterTexture);
-				}
-				else
-				{
-					currentClip_Character = &gCharacterClips[frame_Character / SLOW_FRAME_CHAR];
-					character.Render(currentClip_Character, gRenderer, gCharacterTexture);
-				}
 
+				currentClip_Character = &gCharacterClips[frame_Character / SLOW_FRAME_CHAR];
+				character.Render(currentClip_Character, gRenderer, gCharacterTexture);
+
+				SDL_Rect* currentClip_GroundEnemy1 = &gGroundEnemyClips[frame_Enemy / SLOW_FRAME_ENEMY];
 				enemy1.Move(acceleration);
-				enemy1.Render(gRenderer);
-	
-				enemy2.Move(acceleration);
-				enemy2.Render(gRenderer);
+				enemy1.Render(gRenderer, currentClip_GroundEnemy1);
 
-				SDL_Rect* currentClip_Enemy = &gEnemyClips[frame_Enemy / SLOW_FRAME_ENEMY];
+				SDL_Rect* currentClip_GroundEnemy2 = &gGroundEnemyClips[frame_Enemy / SLOW_FRAME_ENEMY];
+				enemy2.Move(acceleration);
+				enemy2.Render(gRenderer, currentClip_GroundEnemy2);
+
+				SDL_Rect* currentClip_FlyingEnemy = &gFlyingEnemyClips[frame_Enemy / SLOW_FRAME_ENEMY];
 				enemy3.Move(acceleration);
-				enemy3.Render(gRenderer, currentClip_Enemy);
+				enemy3.Render(gRenderer, currentClip_FlyingEnemy);
 
 
 				SDL_Rect* currentClip_Pause = &gPauseButton[PauseButton.currentSprite];
@@ -180,7 +176,7 @@ void Game :: gameLoop()
 
 				if (CheckEnemyColission(character,
 					enemy1, enemy2, enemy3,
-					currentClip_Character, currentClip_Enemy))
+					currentClip_Character, currentClip_FlyingEnemy, currentClip_GroundEnemy1, currentClip_GroundEnemy2))
 				{
 					Mix_PauseMusic();
 					Mix_PlayChannel(MIX_CHANNEL, gLose, NOT_REPEATITIVE);

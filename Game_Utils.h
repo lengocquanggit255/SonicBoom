@@ -72,7 +72,8 @@ void HandlePauseButton(SDL_Event* e,
 void GenerateEnemy(Enemy& enemy1,
     Enemy& enemy2,
     Enemy& enemy3,
-    SDL_Rect(&gEnemyClips)[FLYING_FRAMES],
+    SDL_Rect(&gEnemyClips)[FLYING_ENEMY_FRAMES],
+    SDL_Rect(&gGroundEnemyClips)[GROUND_ENEMY_FRAMES],
     SDL_Renderer* gRenderer);
 
 bool CheckColission(Character character,
@@ -85,7 +86,10 @@ bool CheckEnemyColission(Character character,
     Enemy enemy2,
     Enemy enemy3,
     SDL_Rect* char_clip,
-    SDL_Rect* enemy_clip = nullptr);
+    SDL_Rect* enemy_clip = nullptr,
+    SDL_Rect* GroundEnemy_clip1 = nullptr,
+    SDL_Rect* GroundEnemy_clip2 = nullptr
+    );
 
 void ControlCharFrame(int& frame);
 
