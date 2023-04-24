@@ -21,6 +21,8 @@ SDL_Rect gBackButton[BUTTON_TOTAL];
 SDL_Rect gPauseButton[BUTTON_TOTAL];
 SDL_Rect gContinueButton[BUTTON_TOTAL];
 SDL_Rect gPlayAgainButton[BUTTON_TOTAL];
+SDL_Rect gChooseSonicButton[BUTTON_TOTAL];
+SDL_Rect gChooseShadowButton[BUTTON_TOTAL];
 SDL_Rect gCharacterClips[RUNNING_FRAMES];
 SDL_Rect gFlyingEnemyClips[FLYING_ENEMY_FRAMES];
 SDL_Rect gGroundEnemyClips[GROUND_ENEMY_FRAMES];
@@ -29,6 +31,8 @@ LTexture gMenuTexture;
 LTexture gInstructionTexture;
 LTexture gBackgroundTexture;
 LTexture gCharacterTexture;
+LTexture gSonicTexture;
+LTexture gShadowTexture;
 LTexture gGroundTexture;
 LTexture gPlayButtonTexture;
 LTexture gHelpButtonTexture;
@@ -36,6 +40,9 @@ LTexture gExitButtonTexture;
 LTexture gBackButtonTexture;
 LTexture gPauseButtonTexture;
 LTexture gContinueButtonTexture;
+LTexture gChooseSonicButtonTexture;
+LTexture gChooseShadowButtonTexture;
+LTexture gChooseCharacterBackGroundTexture;
 LTexture gLoseTexture;
 LTexture gText1Texture;
 LTexture gScoreTexture;
@@ -48,6 +55,8 @@ Button ExitButton(EXIT_BUTTON_POSX, EXIT_BUTTON_POSY);
 Button BackButton(BACK_BUTTON_POSX, BACK_BUTTON_POSY);
 Button PauseButton(PAUSE_BUTTON_POSX, PAUSE_BUTTON_POSY);
 Button ContinueButton(CONTINUE_BUTTON_POSX, CONTINUE_BUTTON_POSY);
+Button ChooseSonicButton(CHOOSE_SONIC_BUTTON_POSX, CHOOSE_SONIC_BUTTON_POSY);
+Button ChooseShawdownButton(CHOOSE_SHADOW_BUTTON_POSX, CHOOSE_SHADOW_BUTTON_POSY);
 
 Character character;
 
@@ -72,12 +81,16 @@ void Game :: gameLoop()
 				Play = false;
 			}
 
-			HandlePlayButton(&e_mouse, PlayButton, Quit_Menu, Play, gClick);
+			HandlePlayButton(&e_mouse, gChooseSonicButton, gChooseShadowButton, PlayButton,
+								ChooseSonicButton, ChooseShawdownButton, gChooseSonicButtonTexture,
+								gChooseShadowButtonTexture, gChooseCharacterBackGroundTexture,
+								gCharacterTexture, gSonicTexture, gShadowTexture,
+								gRenderer, Quit_Menu, Play, gClick);
 				
 			HandleHelpButton(&e_mouse, gBackButton,
 								HelpButton, BackButton, 
 								gInstructionTexture, gBackButtonTexture,
-								gRenderer, Quit_Game, gClick);
+								gRenderer, Quit_Menu, gClick);
 
 			HandleExitButton(&e_mouse, ExitButton, Quit_Menu, gClick);
 		}
@@ -325,7 +338,7 @@ bool Game :: LoadMedia()
 				success = false;
 			}
 			
-			if (!gMenuTexture.LoadFromFile("imgs/background/menu.png", gRenderer))
+			if (!gMenuTexture.LoadFromFile("imgs/background/menu.jpg", gRenderer))
 			{
 				std::cout << "Failed to load menu image" << std::endl;
 				success = false;
@@ -447,9 +460,14 @@ bool Game :: LoadMedia()
 				success = false;
 			}
 
-			if (!gCharacterTexture.LoadFromFile("imgs/character/char.png", gRenderer))
+			if (!gSonicTexture.LoadFromFile("imgs/character/sonic.png", gRenderer))
 			{
-				std::cout << "Failed to load character_run image." << std::endl;
+				std::cout << "Failed to load sonic_run image." << std::endl;
+				success = false;
+			}
+			if (!gShadowTexture.LoadFromFile("imgs/character/shadow.png", gRenderer))
+			{
+				std::cout << "Failed to load shadow_run image." << std::endl;
 				success = false;
 			}
 			else
@@ -480,6 +498,44 @@ bool Game :: LoadMedia()
 				std::cout << "Failed to load lose image." << std::endl;
 				success = false;
 			}
+			
+			if (!gChooseShadowButtonTexture.LoadFromFile("imgs/button/big_button/blackSonic.png", gRenderer))
+			{
+				std::cout << "Failed to load shadow button image." << std::endl;
+				success = false;
+			}
+			else
+			{
+				for (int i = 0; i < BUTTON_TOTAL; ++i)
+				{
+					gChooseShadowButton[i].x = 280 * i;
+					gChooseShadowButton[i].y = 0;
+					gChooseShadowButton[i].w = 280;
+					gChooseShadowButton[i].h = 350;
+				}
+			}
+
+			if (!gChooseSonicButtonTexture.LoadFromFile("imgs/button/big_button/blueSonic.png", gRenderer))
+			{
+				std::cout << "Failed to load sonic button image." << std::endl;
+				success = false;
+			}
+			else
+			{
+				for (int i = 0; i < BUTTON_TOTAL; ++i)
+				{
+					gChooseSonicButton[i].x = 280 * i;
+					gChooseSonicButton[i].y = 0;
+					gChooseSonicButton[i].w = 280;
+					gChooseSonicButton[i].h = 350;
+				}
+			}
+
+			if (!gChooseCharacterBackGroundTexture.LoadFromFile("imgs/background/characterSelectionBg.png", gRenderer))
+			{
+				std::cout << "Failed to load choose character background image" << std::endl;
+				success = false;
+			}
 		}
 	}
 	return success;
@@ -490,6 +546,8 @@ void Game::Close()
 	gMenuTexture.Free();
 	gInstructionTexture.Free();
 	gCharacterTexture.Free();
+	gSonicTexture.Free();
+	gShadowTexture.Free();	
 	gGroundTexture.Free();
 	gPlayButtonTexture.Free();
 	gHelpButtonTexture.Free();
@@ -503,6 +561,9 @@ void Game::Close()
 	gText2Texture.Free();
 	gHighScoreTexture.Free();
 
+	gChooseShadowButtonTexture.Free();
+	gChooseSonicButtonTexture.Free();
+	gChooseCharacterBackGroundTexture.Free();
 	
 	gBackgroundTexture.Free();
 	

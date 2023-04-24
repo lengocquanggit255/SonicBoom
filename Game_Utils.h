@@ -6,10 +6,6 @@
 #include "Enemy.h"
 #include "Character.h"
 
-bool Init();
-bool LoadMedia();
-void Close();
-
 std::string GetHighScoreFromFile(std::string path);
 
 void UpdateHighScore(std::string path,
@@ -28,7 +24,18 @@ void RenderScrollingGround(int& speed,
     SDL_Renderer* gRenderer);
 
 void HandlePlayButton(SDL_Event* e,
+    SDL_Rect(&gChooseSonicButton)[BUTTON_TOTAL],
+    SDL_Rect(&gChooseShadowButton)[BUTTON_TOTAL],
     Button& PlayButton,
+    Button& ChooseSonicButton,
+    Button& ChooseShawdownButton,
+    LTexture gChooseSonicButtonTexture,
+    LTexture gChooseShadowButtonTexture,
+    LTexture gChooseCharacterBackGroundTexture,
+    LTexture& gCharacterTexture,
+	LTexture& gSonicTexture,
+	LTexture& gShadowTexture,
+    SDL_Renderer* gRenderer,
     bool& QuitMenu,
     bool& Play,
     Mix_Chunk* gClick);

@@ -19,7 +19,6 @@ public:
 
     bool Quit_Menu = false;
     bool Play = false;
-    bool Quit_Game = false;
 
 private:
     bool running = false;

@@ -46,6 +46,7 @@
 #define SMALL_BUTTON 1
 #define COMMON_BUTTON 2
 #define BACK_BUTTON 3
+#define CHOOSE_CHARACTER_BUTTON 4
 
 const std::string WINDOW_TITLE = "Sonic Boom";
 
@@ -56,6 +57,10 @@ const int COMMON_BUTTON_WIDTH = 150;
 const int COMMON_BUTTON_HEIGHT = 98;
 const int SMALL_BUTTON_WIDTH = 22;
 const int SMALL_BUTTON_HEIGHT = 34;
+const int BACK_BUTTON_WIDTH = 100;
+const int BACK_BUTTON_HEIGHT = 78;
+const int CHOOSE_CHARACTER_BUTTON_WIDTH = 260;
+const int CHOOSE_CHARACTER_BUTTON_HEIGHT = 350;
 
 const int PLAY_BUTON_POSX = 389;
 const int PLAY_BUTTON_POSY= 186;
@@ -69,6 +74,11 @@ const int PAUSE_BUTTON_POSX = 31;
 const int PAUSE_BUTTON_POSY = 29;
 const int CONTINUE_BUTTON_POSX = 31;
 const int CONTINUE_BUTTON_POSY = 29;
+const int CHOOSE_SONIC_BUTTON_POSX = 36;
+const int CHOOSE_SONIC_BUTTON_POSY = 80;
+const int CHOOSE_SHADOW_BUTTON_POSX = 630;
+const int CHOOSE_SHADOW_BUTTON_POSY = 80;
+
 
 const int TEXT_1_POSX = 670;
 const int TEXT_1_POSY = 20;

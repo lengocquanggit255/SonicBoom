@@ -91,14 +91,25 @@ void RenderScrollingGround(int& offsetSpeed,
 	gGroundTexture.Render(offsetSpeed + gGroundTexture.GetWidth(), 0, gRenderer);
 }
 
-//set tình trạng của button để render
+//set tình trạng của button và render
 void HandlePlayButton(SDL_Event* e,
-	Button& PlayButton,
-	bool& QuitMenu,
-	bool& Play,
-	Mix_Chunk* gClick)
+    SDL_Rect(&gChooseSonicButton)[BUTTON_TOTAL],
+    SDL_Rect(&gChooseShadowButton)[BUTTON_TOTAL],
+    Button& PlayButton,
+    Button& ChooseSonicButton,
+    Button& ChooseShadowButton,
+    LTexture gChooseSonicButtonTexture,
+    LTexture gChooseShadowButtonTexture,
+    LTexture gChooseCharacterBackGroundTexture,
+	LTexture& gCharacterTexture,
+	LTexture& gSonicTexture,
+	LTexture& gShadowTexture,
+    SDL_Renderer* gRenderer,
+    bool& QuitMenu,
+    bool& Play,
+    Mix_Chunk* gClick)
 {
-	if (PlayButton.IsInside(e, COMMON_BUTTON))// check if the mouse is inside the button
+	if (PlayButton.IsInside(COMMON_BUTTON))// check if the mouse is inside the button
 	{
 		switch (e->type)
 		{
@@ -106,10 +117,71 @@ void HandlePlayButton(SDL_Event* e,
 			PlayButton.currentSprite = BUTTON_MOUSE_OVER;
 			break;
 		case SDL_MOUSEBUTTONDOWN:// if inside playbutton and click
-			Play = true;
-			QuitMenu = true;
 			Mix_PlayChannel(MIX_CHANNEL, gClick, 0);
 			PlayButton.currentSprite = BUTTON_MOUSE_OVER;
+
+			bool ChooseDone = false;
+			while (!ChooseDone)
+			{
+				do
+				{
+					if (ChooseSonicButton.IsInside(CHOOSE_CHARACTER_BUTTON))
+					{
+						switch (e->type)
+						{
+						default:
+							ChooseSonicButton.currentSprite = BUTTON_MOUSE_OVER;
+							break;
+						case SDL_MOUSEBUTTONDOWN:
+							ChooseSonicButton.currentSprite = BUTTON_MOUSE_OVER;
+							Mix_PlayChannel(MIX_CHANNEL, gClick, NOT_REPEATITIVE);
+							gCharacterTexture = gSonicTexture;
+							ChooseDone = true;
+							QuitMenu = true;
+							Play = true;
+							break;
+						}
+					}
+					else
+					{
+						ChooseSonicButton.currentSprite = BUTTON_MOUSE_OUT;
+					}
+
+					if (ChooseShadowButton.IsInside(CHOOSE_CHARACTER_BUTTON))
+					{
+						switch (e->type)
+						{
+						default:
+							ChooseShadowButton.currentSprite = BUTTON_MOUSE_OVER;
+							break;
+						case SDL_MOUSEBUTTONDOWN:
+							ChooseShadowButton.currentSprite = BUTTON_MOUSE_OVER;
+							Mix_PlayChannel(MIX_CHANNEL, gClick, NOT_REPEATITIVE);
+							gCharacterTexture = gShadowTexture;
+							ChooseDone = true;
+							QuitMenu = true;
+							Play = true;
+							break;
+						}
+					}
+					else
+					{
+						ChooseShadowButton.currentSprite = BUTTON_MOUSE_OUT;
+					}
+					
+					gChooseCharacterBackGroundTexture.Render(0, 0, gRenderer);
+
+					SDL_Rect* currentClip_ChooseSonic = &gChooseSonicButton[ChooseSonicButton.currentSprite];
+					ChooseSonicButton.Render(currentClip_ChooseSonic, gRenderer, gChooseSonicButtonTexture);
+
+					SDL_Rect* currentClip_ChooseShadow = &gChooseShadowButton[ChooseShadowButton.currentSprite];
+					ChooseShadowButton.Render(currentClip_ChooseShadow, gRenderer, gChooseShadowButtonTexture);
+
+					SDL_RenderPresent(gRenderer);
+
+				} while ((SDL_PollEvent(e) != 0 && e->type == SDL_MOUSEBUTTONDOWN) || e->type == SDL_MOUSEMOTION);
+			}
+			
 			break;
 		}
 	}
@@ -127,10 +199,10 @@ void HandleHelpButton(SDL_Event* e,
 	LTexture gInstructionTexture,
 	LTexture gBackButtonTexture, 
 	SDL_Renderer *gRenderer, 
-	bool &Quit_game, 
+	bool &Quit_Menu, 
 	Mix_Chunk *gClick)
 {
-	if (HelpButton.IsInside(e, COMMON_BUTTON))
+	if (HelpButton.IsInside(COMMON_BUTTON))
 	{
 		switch (e->type)
 		{
@@ -150,9 +222,9 @@ void HandleHelpButton(SDL_Event* e,
 					if (e->type == SDL_QUIT)
 					{
 						ReadDone = true;
-						Quit_game = true;
+						Quit_Menu = true;
 					}
-					else if (BackButton.IsInside(e, BACK_BUTTON))
+					else if (BackButton.IsInside(BACK_BUTTON))
 					{
 						switch (e->type)
 						{
@@ -193,7 +265,7 @@ void HandleExitButton(SDL_Event* e,
 	bool& Quit,
 	Mix_Chunk* gClick)
 {
-	if (ExitButton.IsInside(e, COMMON_BUTTON))
+	if (ExitButton.IsInside(COMMON_BUTTON))
 	{
 		switch (e->type)
 		{
@@ -235,7 +307,7 @@ void HandleContinueButton(Button ContinueButton,
 		}
 		do
 		{
-			if (ContinueButton.IsInside(e, SMALL_BUTTON))
+			if (ContinueButton.IsInside(SMALL_BUTTON))
 			{
 				switch (e->type)
 				{
@@ -277,7 +349,7 @@ void HandlePauseButton(SDL_Event* e,
 	bool &Play,
 	Mix_Chunk *gClick)
 {
-	if (PauseButton.IsInside(e, SMALL_BUTTON))
+	if (PauseButton.IsInside(SMALL_BUTTON))
 	{
 		switch (e->type)
 		{
