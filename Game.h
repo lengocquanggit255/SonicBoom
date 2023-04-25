@@ -19,6 +19,16 @@ public:
 
     bool Quit_Menu = false;
     bool Play = false;
+    bool Quit = false;
+	bool Game_State = true;
+
+    int	currentTime = 0;
+    int score = 0;
+    int acceleration = 0;
+    int frame_Character = 0;
+    int frame_Enemy = 0;
+
+    std::string highscore = GetHighScoreFromFile("high_score.txt");
 
 private:
     bool running = false;

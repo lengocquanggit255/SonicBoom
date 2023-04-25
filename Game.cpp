@@ -111,13 +111,7 @@ void Game :: gameLoop()
 	while (Play)// handle play again
 	{
 		srand(time(NULL));
-		int time = 0;
-		int score = 0;
-		int acceleration = 0;
-		int frame_Character = 0;
-		int frame_Enemy = 0;
-		std::string highscore = GetHighScoreFromFile("high_score.txt");
-		
+
 		SDL_Event e;
 		Enemy enemy1(ON_GROUND_ENEMY);
 		Enemy enemy2(ON_GROUND_ENEMY);
@@ -130,14 +124,11 @@ void Game :: gameLoop()
 		int OffsetSpeed_Ground = BASE_OFFSET_SPEED;
 		double OffsetSpeed_Bkgr = BASE_OFFSET_SPEED;				
 
-		bool Quit = false;
-		bool Game_State = true;
-
 		while (!Quit)
 		{
 			if (Game_State)
 			{
-				UpdateGameTimeAndScore(time, acceleration, score);
+				UpdateGameTimeAndScore(currentTime, acceleration, score);
 
 				while (SDL_PollEvent(&e) != 0)
 				{
@@ -338,7 +329,7 @@ bool Game :: LoadMedia()
 				success = false;
 			}
 			
-			if (!gMenuTexture.LoadFromFile("imgs/background/menu.jpg", gRenderer))
+			if (!gMenuTexture.LoadFromFile("imgs/background/menu.png", gRenderer))
 			{
 				std::cout << "Failed to load menu image" << std::endl;
 				success = false;
@@ -359,10 +350,10 @@ bool Game :: LoadMedia()
 			{
 				for (int i = 0; i < BUTTON_TOTAL; ++i)// một mảng chứa từng frame trong clip playButton
 				{
-					gPlayButton[i].x = 150 * i; // vị trị frame trong play_button.png
+					gPlayButton[i].x = COMMON_BUTTON_WIDTH * i; // vị trị frame trong play_button.png
 					gPlayButton[i].y = 0;
-					gPlayButton[i].w = 150;
-					gPlayButton[i].h = 98;
+					gPlayButton[i].w = COMMON_BUTTON_WIDTH;
+					gPlayButton[i].h = COMMON_BUTTON_HEIGHT;
 				}
 			}
 
@@ -375,10 +366,10 @@ bool Game :: LoadMedia()
 			{
 				for (int i = 0; i < BUTTON_TOTAL; ++i)
 				{
-					gHelpButton[i].x = 150 * i;
+					gHelpButton[i].x = COMMON_BUTTON_WIDTH * i;
 					gHelpButton[i].y = 0;
-					gHelpButton[i].w = 150;
-					gHelpButton[i].h = 98;
+					gHelpButton[i].w = COMMON_BUTTON_WIDTH;
+					gHelpButton[i].h = COMMON_BUTTON_HEIGHT;
 				}
 			}
 
@@ -391,10 +382,10 @@ bool Game :: LoadMedia()
 			{
 				for (int i = 0; i < BUTTON_TOTAL; ++i)
 				{
-					gBackButton[i].x = 100 * i;
+					gBackButton[i].x = BACK_BUTTON_WIDTH * i;
 					gBackButton[i].y = 0;
-					gBackButton[i].w = 100;
-					gBackButton[i].h = 78;
+					gBackButton[i].w = BACK_BUTTON_WIDTH;
+					gBackButton[i].h = BACK_BUTTON_HEIGHT;
 				}
 			}
 
@@ -407,10 +398,10 @@ bool Game :: LoadMedia()
 			{
 				for (int i = 0; i < BUTTON_TOTAL; ++i)
 				{
-					gExitButton[i].x = 150 * i;
+					gExitButton[i].x = COMMON_BUTTON_WIDTH * i;
 					gExitButton[i].y = 0;
-					gExitButton[i].w = 150;
-					gExitButton[i].h = 98;
+					gExitButton[i].w = COMMON_BUTTON_WIDTH;
+					gExitButton[i].h = COMMON_BUTTON_HEIGHT;
 				}
 			}
 
@@ -423,10 +414,10 @@ bool Game :: LoadMedia()
 			{
 				for (int i = 0; i < BUTTON_TOTAL; ++i)
 				{
-					gPauseButton[i].x = 22 * i;
+					gPauseButton[i].x = SMALL_BUTTON_WIDTH * i;
 					gPauseButton[i].y = 0;
-					gPauseButton[i].w = 22;
-					gPauseButton[i].h = 34;
+					gPauseButton[i].w = SMALL_BUTTON_WIDTH;
+					gPauseButton[i].h = SMALL_BUTTON_HEIGHT;
 				}
 			}
 
@@ -439,10 +430,10 @@ bool Game :: LoadMedia()
 			{
 				for (int i = 0; i < BUTTON_TOTAL; ++i)
 				{
-					gContinueButton[i].x = 22 * i;
+					gContinueButton[i].x = SMALL_BUTTON_WIDTH * i;
 					gContinueButton[i].y = 0;
-					gContinueButton[i].w = 22;
-					gContinueButton[i].h = 34;
+					gContinueButton[i].w = SMALL_BUTTON_WIDTH;
+					gContinueButton[i].h = SMALL_BUTTON_HEIGHT;
 				}
 			}
 
@@ -472,25 +463,25 @@ bool Game :: LoadMedia()
 			}
 			else
 			{
-				gCharacterClips[0].x = 53 * 0;
+				gCharacterClips[0].x = CHARACTER_FRAME_WIDTH * 0;
 				gCharacterClips[0].y = 0;
-				gCharacterClips[0].w = 53;
-				gCharacterClips[0].h = 57;
+				gCharacterClips[0].w = CHARACTER_FRAME_WIDTH;
+				gCharacterClips[0].h = CHARACTER_FRAME_HEIGHT;
 
-				gCharacterClips[1].x = 53 * 1;
+				gCharacterClips[1].x = CHARACTER_FRAME_WIDTH * 1;
 				gCharacterClips[1].y = 0;
-				gCharacterClips[1].w = 53;
-				gCharacterClips[1].h = 57;
+				gCharacterClips[1].w = CHARACTER_FRAME_WIDTH;
+				gCharacterClips[1].h = CHARACTER_FRAME_HEIGHT;
 
-				gCharacterClips[2].x = 53 * 2;
+				gCharacterClips[2].x = CHARACTER_FRAME_WIDTH * 2;
 				gCharacterClips[2].y = 0;
-				gCharacterClips[2].w = 53;
-				gCharacterClips[2].h = 57;
+				gCharacterClips[2].w = CHARACTER_FRAME_WIDTH;
+				gCharacterClips[2].h = CHARACTER_FRAME_HEIGHT;
 
-				gCharacterClips[3].x = 53 * 3;
+				gCharacterClips[3].x = CHARACTER_FRAME_WIDTH * 3;
 				gCharacterClips[3].y = 0;
-				gCharacterClips[3].w = 53;
-				gCharacterClips[3].h = 57;
+				gCharacterClips[3].w = CHARACTER_FRAME_WIDTH;
+				gCharacterClips[3].h = CHARACTER_FRAME_HEIGHT;
 			}
 
 			if (!gLoseTexture.LoadFromFile("imgs/background/lose.png", gRenderer))
@@ -508,10 +499,10 @@ bool Game :: LoadMedia()
 			{
 				for (int i = 0; i < BUTTON_TOTAL; ++i)
 				{
-					gChooseShadowButton[i].x = 280 * i;
+					gChooseShadowButton[i].x = CHOOSE_CHARACTER_BUTTON_WIDTH * i;
 					gChooseShadowButton[i].y = 0;
-					gChooseShadowButton[i].w = 280;
-					gChooseShadowButton[i].h = 350;
+					gChooseShadowButton[i].w = CHOOSE_CHARACTER_BUTTON_WIDTH;
+					gChooseShadowButton[i].h = CHOOSE_CHARACTER_BUTTON_HEIGHT;
 				}
 			}
 
@@ -524,10 +515,10 @@ bool Game :: LoadMedia()
 			{
 				for (int i = 0; i < BUTTON_TOTAL; ++i)
 				{
-					gChooseSonicButton[i].x = 280 * i;
+					gChooseSonicButton[i].x = CHOOSE_CHARACTER_BUTTON_WIDTH * i;
 					gChooseSonicButton[i].y = 0;
-					gChooseSonicButton[i].w = 280;
-					gChooseSonicButton[i].h = 350;
+					gChooseSonicButton[i].w = CHOOSE_CHARACTER_BUTTON_WIDTH;
+					gChooseSonicButton[i].h = CHOOSE_CHARACTER_BUTTON_HEIGHT;
 				}
 			}
 
