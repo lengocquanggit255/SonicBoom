@@ -51,9 +51,9 @@ void HandleHelpButton(SDL_Event* e,
     Mix_Chunk* gClick);
 
 void HandleExitButton(SDL_Event* e,
-    Button& ExitButton,
-    bool& Quit,
-    Mix_Chunk* gClick);
+	Button& ExitButton,
+	bool& Quit_Menu,
+	Mix_Chunk* gClick);
 
 void HandleContinueButton(Button ContinueButton,
     LTexture gContinueButtonTexture,
@@ -61,7 +61,7 @@ void HandleContinueButton(Button ContinueButton,
     SDL_Renderer* gRenderer,
     SDL_Rect(&gContinueButton)[BUTTON_TOTAL],
     bool& Game_State,
-    bool& Quit,
+    bool& Die,
     bool &Play,
     Mix_Chunk* gClick);
 
@@ -72,7 +72,7 @@ void HandlePauseButton(SDL_Event* e,
     Button ContinueButton,
     LTexture gContinueButtonTexture,
     bool& game_state,
-    bool& Quit,
+    bool& Die,
     bool &Play,
     Mix_Chunk* gClick);
 
@@ -116,9 +116,9 @@ void DrawPlayerHighScore(LTexture gTextTexture,
     TTF_Font* gFont, 
     const std::string& HighScore);
 
-void DrawEndGameSelection(LTexture gLoseTexture,
+bool AskToPlayAgain(LTexture gLoseTexture,
     SDL_Event* e,
     SDL_Renderer* gRenderer,
-    bool& Play_Again);
+    bool& Play);
 
 #endif // !GAME_UTILS_H_

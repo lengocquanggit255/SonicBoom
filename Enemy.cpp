@@ -88,6 +88,21 @@ void Enemy::Move(const int &acceleration)
 	}
 }
 
+//Reset enemy when player hit it
+void Enemy::resetEnemy()
+{
+	if (type == IN_AIR_ENEMY)
+	{
+		posX = rand() % (SCREEN_WIDTH + ENEMY_POSITION_RANGE) + SCREEN_WIDTH;
+		posY = rand() % (ENEMY_MAX_HEIGHT - ENEMY_MIN_HEIGHT + 1) + ENEMY_MIN_HEIGHT;
+	}
+	else if (type == ON_GROUND_ENEMY)
+	{
+		posX = rand() % (SCREEN_WIDTH + ENEMY_POSITION_RANGE) + SCREEN_WIDTH;
+		posY = GROUND - 8;
+	}
+}
+
 void Enemy::Render(SDL_Renderer* gRenderer, SDL_Rect* currentClip)
 {
 	SDL_Rect renderSpace = { posX, posY, eWidth, eHeight };

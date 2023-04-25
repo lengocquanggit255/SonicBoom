@@ -43,6 +43,15 @@ void Character::HandleEvent(SDL_Event& e, Mix_Chunk *gJump)
     }
 }
 
+//Reset position when hit enemy
+void Character:: ResetCharacter()
+{
+    posX = SCREEN_WIDTH - 700;
+	posY = GROUND;
+
+	status = 0;
+}
+
 //When the player reaches the maximum height of their jump, change the player's status to FALL so that they start falling
 //When the player lands on the ground, Reset the jump counter and allow the player to perform another double jump
 void Character::Move()

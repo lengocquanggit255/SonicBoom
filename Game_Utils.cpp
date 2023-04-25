@@ -523,23 +523,24 @@ void DrawPlayerHighScore(LTexture gTextTexture,
 	}
 }
 
-void DrawEndGameSelection(LTexture gLoseTexture,
+bool AskToPlayAgain(LTexture gLoseTexture,
 	SDL_Event *e, 
 	SDL_Renderer *gRenderer,
-	bool &Play_Again)
+	bool &Play)
 {
-	if (Play_Again)
+	bool Play_Again = false;
+	if (Play)
 	{
-		bool End_Game = false;
-		while (!End_Game)
+		bool End_Of_Selection_State = false;
+		while (!End_Of_Selection_State)
 		{
 			while (SDL_PollEvent(e) != 0)
 			{
 				if (e->type == SDL_QUIT)
 				{
-					Play_Again = false;
-					End_Game = true;
-					return;
+					Play = false;
+					End_Of_Selection_State = true;
+					return false;
 				}
 
 				if (e->type == SDL_KEYDOWN)
@@ -547,11 +548,12 @@ void DrawEndGameSelection(LTexture gLoseTexture,
 					switch (e->key.keysym.sym)
 					{
 					case SDLK_SPACE:
-						End_Game = true;
+						End_Of_Selection_State = true;
+						Play_Again = true;
 						break;
 					case SDLK_ESCAPE:
-						End_Game = true;
-						Play_Again = false;
+						End_Of_Selection_State = true;
+						Play = false;
 						break;
 					}
 				}
@@ -562,4 +564,5 @@ void DrawEndGameSelection(LTexture gLoseTexture,
 			SDL_RenderPresent(gRenderer);
 		}
 	}
+return Play_Again;
 }

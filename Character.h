@@ -30,6 +30,8 @@ public:
 
 	int GetPosY();
 
+	void ResetCharacter();
+
 private:
 	int posX, posY;
 

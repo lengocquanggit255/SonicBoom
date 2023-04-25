@@ -5,7 +5,7 @@ const std::string LAYER = {
 };
 
 SDL_Window* gWindow = nullptr;
-SDL_Renderer* gRenderer = nullptr; //Renderer for everything
+SDL_Renderer* gRenderer = nullptr;
 SDL_Color textColor = { 0, 0, 0 };
 TTF_Font* gFont = nullptr;
 Mix_Music* gMusic = nullptr;
@@ -44,6 +44,10 @@ LTexture gChooseSonicButtonTexture;
 LTexture gChooseShadowButtonTexture;
 LTexture gChooseCharacterBackGroundTexture;
 LTexture gLoseTexture;
+LTexture g0live;
+LTexture g1live;
+LTexture g2live;
+LTexture g3live;
 LTexture gText1Texture;
 LTexture gScoreTexture;
 LTexture gText2Texture;
@@ -120,11 +124,8 @@ void Game :: gameLoop()
 		Mix_PlayMusic(gMusic, IS_REPEATITIVE);
 		GenerateEnemy(enemy1, enemy2, enemy3, gFlyingEnemyClips, gGroundEnemyClips, gRenderer);
 
-		//refers to the rate at which an object's position changes over time
-		int OffsetSpeed_Ground = BASE_OFFSET_SPEED;
-		double OffsetSpeed_Bkgr = BASE_OFFSET_SPEED;				
-
-		while (!Quit)
+		//refers to the rate at which an object's position changes over time				
+		while (!Die)
 		{
 			if (Game_State)
 			{
@@ -134,19 +135,19 @@ void Game :: gameLoop()
 				{
 					if (e.type == SDL_QUIT)
 					{
-						Quit = true;
+						Die = true;
 						Play = false;
 					}
 
 					HandlePauseButton(&e, gRenderer, gContinueButton,
 						PauseButton, ContinueButton,
-						gContinueButtonTexture, Game_State, Quit, Play, gClick);
+						gContinueButtonTexture, Game_State, Die, Play, gClick);// Quit và play thêm để SDL_Quit khi đang dừng game
 
 					character.HandleEvent(e, gJump);//change the status to jump
 				}
 
 				SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
-				SDL_RenderClear(gRenderer);
+				SDL_RenderClear(gRenderer);//Clear để render lại
 
 				RenderScrollingBackground(OffsetSpeed_Bkgr, gBackgroundTexture, gRenderer);
 				RenderScrollingGround(OffsetSpeed_Ground, acceleration, gGroundTexture, gRenderer);
@@ -182,12 +183,24 @@ void Game :: gameLoop()
 					enemy1, enemy2, enemy3,
 					currentClip_Character, currentClip_FlyingEnemy, currentClip_GroundEnemy1, currentClip_GroundEnemy2))
 				{
-					Mix_PauseMusic();
+					lives--;
 					Mix_PlayChannel(MIX_CHANNEL, gLose, NOT_REPEATITIVE);
-					UpdateHighScore("high_score.txt", score, highscore);
-					Quit = true;
+					character.ResetCharacter();
+					enemy1.resetEnemy();
+					enemy2.resetEnemy();
+					enemy3.resetEnemy();
 				}
 
+				if(lives == 1)g1live.Render(LIVES_POSX, LIVES_POSY, gRenderer);
+				else if(lives == 2)g2live.Render(LIVES_POSX, LIVES_POSY, gRenderer);
+				else if(lives == 3)g3live.Render(LIVES_POSX, LIVES_POSY, gRenderer);
+				else if(lives == 0)
+				{
+					g0live.Render(LIVES_POSX, LIVES_POSY, gRenderer);
+					Mix_PauseMusic();
+					UpdateHighScore("high_score.txt", score, highscore);
+					Die = true;
+				}
 
 				SDL_RenderPresent(gRenderer);// Present tất cả những cái ở phía trên
 
@@ -196,7 +209,12 @@ void Game :: gameLoop()
 			}
 		}
 
-		DrawEndGameSelection(gLoseTexture, &e, gRenderer, Play);
+		if(AskToPlayAgain(gLoseTexture, &e, gRenderer, Play))
+		{
+
+			ResetGame();
+		}
+
 		if (!Play)
 		{
 			enemy1.~Enemy();
@@ -206,6 +224,23 @@ void Game :: gameLoop()
 	}
 	Close();
     return;
+}
+
+//Reset when player want to play again
+void Game :: ResetGame()
+{
+
+	Die = false;
+	Game_State = true;
+    currentTime = 0;
+    score = 0;
+    acceleration = 0;
+    frame_Character = 0;
+    frame_Enemy = 0;
+	lives = 3;
+
+    OffsetSpeed_Ground = BASE_OFFSET_SPEED;
+	OffsetSpeed_Bkgr = BASE_OFFSET_SPEED;
 }
 
 bool Game::Init()
@@ -340,6 +375,31 @@ bool Game :: LoadMedia()
 				std::cout << "Failed to load instruction image" << std::endl;
 				success = false;
 			}
+
+			if (!g0live.LoadFromFile("imgs/button/big_button/0lives.png", gRenderer))
+			{
+				std::cout << "Failed to load 1lives image" << std::endl;
+				success = false;
+			}
+
+			if (!g1live.LoadFromFile("imgs/button/big_button/1lives.png", gRenderer))
+			{
+				std::cout << "Failed to load 1lives image" << std::endl;
+				success = false;
+			}
+
+			if (!g2live.LoadFromFile("imgs/button/big_button/2lives.png", gRenderer))
+			{
+				std::cout << "Failed to load 2lives image" << std::endl;
+				success = false;
+			}
+
+			if (!g3live.LoadFromFile("imgs/button/big_button/3lives.png", gRenderer))
+			{
+				std::cout << "Failed to load 3lives image" << std::endl;
+				success = false;
+			}
+
 
 			if (!gPlayButtonTexture.LoadFromFile("imgs/button/big_button/play_button.png", gRenderer))
 			{
@@ -551,6 +611,9 @@ void Game::Close()
 	gScoreTexture.Free();
 	gText2Texture.Free();
 	gHighScoreTexture.Free();
+	g1live.Free();
+	g2live.Free();
+	g3live.Free();
 
 	gChooseShadowButtonTexture.Free();
 	gChooseSonicButtonTexture.Free();

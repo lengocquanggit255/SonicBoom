@@ -25,6 +25,8 @@ public:
 
 	int GetSpeed(const int& acceleration);
 
+	void resetEnemy();
+
 	int GetPosX();
 
 	int GetPosY();
