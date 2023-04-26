@@ -344,10 +344,11 @@ bool Game :: LoadMedia()
 
 	else
 	{
-		gFont = TTF_OpenFont("font/pixel_font.ttf", 28);
+		gFont = TTF_OpenFont("font/G4 2004.ttf", 28);
 		if (gFont == NULL)
 		{
 			LogError("Failed to load font", MIX_ERROR);
+			std::cout << std::endl;
 			success = false;
 		}
 		else

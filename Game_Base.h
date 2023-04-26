@@ -88,9 +88,9 @@ const int TEXT_1_POSX = 670;
 const int TEXT_1_POSY = 20;
 const int TEXT_2_POSX = 670;
 const int TEXT_2_POSY = 80;
-const int SCORE_POSX = 830;
+const int SCORE_POSX = 845;
 const int SCORE_POSY = 20;
-const int HIGH_SCORE_POSX = 830;
+const int HIGH_SCORE_POSX = 840;
 const int HIGH_SCORE_POSY = 80;
 
 const double LAYER_SPEED = 1.5;
