@@ -111,3 +111,8 @@ int LTexture::GetHeight()
 {
 	return mHeight;
 }
+
+SDL_Texture* LTexture:: GetTexture()
+{
+	return mTexture;
+}

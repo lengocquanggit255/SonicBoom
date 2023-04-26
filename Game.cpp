@@ -1,9 +1,5 @@
 #include "Game.h"
 
-const std::string LAYER = {
-	"imgs/background/layer.jpg",
-};
-
 SDL_Window* gWindow = nullptr;
 SDL_Renderer* gRenderer = nullptr;
 SDL_Color textColor = { 0, 0, 0 };
@@ -32,7 +28,9 @@ LTexture gInstructionTexture;
 LTexture gBackgroundTexture;
 LTexture gCharacterTexture;
 LTexture gSonicTexture;
+LTexture gSonicTextureHasShield;
 LTexture gShadowTexture;
+LTexture gShadowTextureHasShield;
 LTexture gGroundTexture;
 LTexture gPlayButtonTexture;
 LTexture gHelpButtonTexture;
@@ -61,8 +59,6 @@ Button PauseButton(PAUSE_BUTTON_POSX, PAUSE_BUTTON_POSY);
 Button ContinueButton(CONTINUE_BUTTON_POSX, CONTINUE_BUTTON_POSY);
 Button ChooseSonicButton(CHOOSE_SONIC_BUTTON_POSX, CHOOSE_SONIC_BUTTON_POSY);
 Button ChooseShawdownButton(CHOOSE_SHADOW_BUTTON_POSX, CHOOSE_SHADOW_BUTTON_POSY);
-
-Character character;
 
 void Game :: gameLoop()
 {
@@ -117,6 +113,8 @@ void Game :: gameLoop()
 		srand(time(NULL));
 
 		SDL_Event e;
+		Character character;
+		PowerUp shield;
 		Enemy enemy1(ON_GROUND_ENEMY);
 		Enemy enemy2(ON_GROUND_ENEMY);
 		Enemy enemy3(IN_AIR_ENEMY);
@@ -170,7 +168,17 @@ void Game :: gameLoop()
 				SDL_Rect* currentClip_FlyingEnemy = &gFlyingEnemyClips[frame_Enemy / SLOW_FRAME_ENEMY];
 				enemy3.Move(acceleration);
 				enemy3.Render(gRenderer, currentClip_FlyingEnemy);
-
+				
+				if(score % 200 == 0)
+				{
+					shield.isGenerated = true;
+					GeneratePowerUp(shield, gRenderer);
+				}
+				if(shield.isGenerated)
+				{
+					shield.Move(acceleration);
+					shield.Render(gRenderer);
+				}
 
 				SDL_Rect* currentClip_Pause = &gPauseButton[PauseButton.currentSprite];
 				PauseButton.Render(currentClip_Pause, gRenderer, gPauseButtonTexture);
@@ -179,22 +187,49 @@ void Game :: gameLoop()
 				DrawPlayerScore(gText1Texture, gScoreTexture, textColor, gRenderer, gFont, score);
 				DrawPlayerHighScore(gText2Texture, gHighScoreTexture, textColor, gRenderer, gFont, highscore);
 
-				if (CheckEnemyColission(character,
-					enemy1, enemy2, enemy3,
-					currentClip_Character, currentClip_FlyingEnemy, currentClip_GroundEnemy1, currentClip_GroundEnemy2))
+				if (CheckPowerUpColission(character, currentClip_Character, shield))
 				{
-					lives--;
-					Mix_PlayChannel(MIX_CHANNEL, gLose, NOT_REPEATITIVE);
-					character.ResetCharacter();
-					enemy1.resetEnemy();
-					enemy2.resetEnemy();
-					enemy3.resetEnemy();
+
+					shield.powerUpTimer = SDL_GetTicks();
+					character.haveShield = true;
+					shield.~PowerUp();
+					if(gCharacterTexture.GetTexture() == gShadowTexture.GetTexture())gCharacterTexture = gShadowTextureHasShield;
+					if(gCharacterTexture.GetTexture() == gSonicTexture.GetTexture())gCharacterTexture = gSonicTextureHasShield;
+					std::cout << "Character has shield" << std::endl;
+					
 				}
 
-				if(lives == 1)g1live.Render(LIVES_POSX, LIVES_POSY, gRenderer);
-				else if(lives == 2)g2live.Render(LIVES_POSX, LIVES_POSY, gRenderer);
-				else if(lives == 3)g3live.Render(LIVES_POSX, LIVES_POSY, gRenderer);
-				else if(lives == 0)
+				if(character.haveShield){
+
+					shield.currentTime = SDL_GetTicks();
+					if (shield.currentTime - shield.powerUpTimer >= 5000) {
+						if(gCharacterTexture.GetTexture() == gShadowTextureHasShield.GetTexture())gCharacterTexture = gShadowTexture;
+						if(gCharacterTexture.GetTexture() == gSonicTextureHasShield.GetTexture())gCharacterTexture = gSonicTexture;
+						std::cout << "Character lost shield" << std::endl;
+						character.haveShield = false;
+					}
+
+				}
+				
+				if (!character.haveShield)
+				{
+					if (CheckEnemyColission(character,
+					enemy1, enemy2, enemy3,
+					currentClip_Character, currentClip_FlyingEnemy, 
+					currentClip_GroundEnemy1, currentClip_GroundEnemy2))
+					{
+						Mix_PlayChannel(MIX_CHANNEL, gLose, NOT_REPEATITIVE);
+						character.ResetCharacter(Die);
+						enemy1.resetEnemy();
+						enemy2.resetEnemy();
+						enemy3.resetEnemy();
+					}
+				}
+
+				if(character.lives == 1)g1live.Render(LIVES_POSX, LIVES_POSY, gRenderer);
+				else if(character.lives == 2)g2live.Render(LIVES_POSX, LIVES_POSY, gRenderer);
+				else if(character.lives == 3)g3live.Render(LIVES_POSX, LIVES_POSY, gRenderer);
+				else if(character.lives == 0)
 				{
 					g0live.Render(LIVES_POSX, LIVES_POSY, gRenderer);
 					Mix_PauseMusic();
@@ -213,6 +248,8 @@ void Game :: gameLoop()
 		{
 
 			ResetGame();
+			character.ResetCharacter(Die);
+
 		}
 
 		if (!Play)
@@ -237,7 +274,6 @@ void Game :: ResetGame()
     acceleration = 0;
     frame_Character = 0;
     frame_Enemy = 0;
-	lives = 3;
 
     OffsetSpeed_Ground = BASE_OFFSET_SPEED;
 	OffsetSpeed_Bkgr = BASE_OFFSET_SPEED;
@@ -377,25 +413,25 @@ bool Game :: LoadMedia()
 				success = false;
 			}
 
-			if (!g0live.LoadFromFile("imgs/button/big_button/0lives.png", gRenderer))
+			if (!g0live.LoadFromFile("imgs/other/0lives.png", gRenderer))
 			{
 				std::cout << "Failed to load 1lives image" << std::endl;
 				success = false;
 			}
 
-			if (!g1live.LoadFromFile("imgs/button/big_button/1lives.png", gRenderer))
+			if (!g1live.LoadFromFile("imgs/other/1lives.png", gRenderer))
 			{
 				std::cout << "Failed to load 1lives image" << std::endl;
 				success = false;
 			}
 
-			if (!g2live.LoadFromFile("imgs/button/big_button/2lives.png", gRenderer))
+			if (!g2live.LoadFromFile("imgs/other/2lives.png", gRenderer))
 			{
 				std::cout << "Failed to load 2lives image" << std::endl;
 				success = false;
 			}
 
-			if (!g3live.LoadFromFile("imgs/button/big_button/3lives.png", gRenderer))
+			if (!g3live.LoadFromFile("imgs/other/3lives.png", gRenderer))
 			{
 				std::cout << "Failed to load 3lives image" << std::endl;
 				success = false;
@@ -466,7 +502,7 @@ bool Game :: LoadMedia()
 				}
 			}
 
-			if (!gPauseButtonTexture.LoadFromFile("imgs/button/big_button/pause_button.png", gRenderer))
+			if (!gPauseButtonTexture.LoadFromFile("imgs/button/small_button/pause_button.png", gRenderer))
 			{
 				std::cout << "Failed to load pause_button image " << std::endl;
 				success = false;
@@ -482,7 +518,7 @@ bool Game :: LoadMedia()
 				}
 			}
 
-			if (!gContinueButtonTexture.LoadFromFile("imgs/button/big_button/continue_button.png", gRenderer))
+			if (!gContinueButtonTexture.LoadFromFile("imgs/button/small_button/continue_button.png", gRenderer))
 			{
 				std::cout << "Failed to load continue_button image " << std::endl;
 				success = false;
@@ -499,7 +535,7 @@ bool Game :: LoadMedia()
 			}
 
 			
-			if (!gBackgroundTexture.LoadFromFile(LAYER.c_str(), gRenderer))
+			if (!gBackgroundTexture.LoadFromFile("imgs/background/layer.jpg", gRenderer))
 			{
 				std::cout << "Failed to load background image" << std::endl;
 				success = false;
@@ -517,9 +553,19 @@ bool Game :: LoadMedia()
 				std::cout << "Failed to load sonic_run image." << std::endl;
 				success = false;
 			}
+			if (!gSonicTextureHasShield.LoadFromFile("imgs/character/sonicHasShield.png", gRenderer))
+			{
+				std::cout << "Failed to load sonic_run has shield image." << std::endl;
+				success = false;
+			}
 			if (!gShadowTexture.LoadFromFile("imgs/character/shadow.png", gRenderer))
 			{
 				std::cout << "Failed to load shadow_run image." << std::endl;
+				success = false;
+			}
+			if (!gShadowTextureHasShield.LoadFromFile("imgs/character/shadowHasShield.png", gRenderer))
+			{
+				std::cout << "Failed to load shadow_run has shield image." << std::endl;
 				success = false;
 			}
 			else
@@ -599,7 +645,9 @@ void Game::Close()
 	gInstructionTexture.Free();
 	gCharacterTexture.Free();
 	gSonicTexture.Free();
-	gShadowTexture.Free();	
+	gSonicTextureHasShield.Free();
+	gShadowTexture.Free();
+	gShadowTextureHasShield.Free();
 	gGroundTexture.Free();
 	gPlayButtonTexture.Free();
 	gHelpButtonTexture.Free();

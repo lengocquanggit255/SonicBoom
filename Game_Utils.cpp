@@ -58,7 +58,7 @@ int UpdateGameTimeAndScore(
 
 //Render 2 ảnh, 1 ảnh bắt đàu ở 1 vị trí âm, ảnh sau bắt đầu ở vị trí của ảnh trước cộng chiều rộng 
 void RenderScrollingBackground(double& offsetSpeed,
-	LTexture &gBackgroundTexture,
+	LTexture (&gBackgroundTexture),
 	SDL_Renderer* gRenderer)
 {
 	double layer_speed = LAYER_SPEED;
@@ -376,7 +376,7 @@ void HandlePauseButton(SDL_Event* e,
 void GenerateEnemy(Enemy& enemy1,
 	Enemy& enemy2,
 	Enemy& enemy3,
-	SDL_Rect(&gEnemyClips)[FLYING_ENEMY_FRAMES],
+	SDL_Rect(&gFlyingEnemyClips)[FLYING_ENEMY_FRAMES],
 	SDL_Rect(&gGroundEnemyClips)[GROUND_ENEMY_FRAMES], 
 	SDL_Renderer * gRenderer)
 {
@@ -384,46 +384,52 @@ void GenerateEnemy(Enemy& enemy1,
 	enemy2.LoadFromFile("imgs/enemy/cactus.png", gRenderer);
 	enemy3.LoadFromFile("imgs/enemy/bat.png", gRenderer);
 	
-		gEnemyClips[0].x = 0;
-		gEnemyClips[0].y = 0;
-		gEnemyClips[0].w = 64.25;
-		gEnemyClips[0].h = 30;
+		gFlyingEnemyClips[0].x = 0;
+		gFlyingEnemyClips[0].y = 0;
+		gFlyingEnemyClips[0].w = FLYING_ENEMY_FRAME_WIDTH;
+		gFlyingEnemyClips[0].h = FLYING_ENEMY_FRAME_HEIGHT;
 
-		gEnemyClips[1].x = 64.25;
-		gEnemyClips[1].y = 0;
-		gEnemyClips[1].w = 64.25;
-		gEnemyClips[1].h = 30;
+		gFlyingEnemyClips[1].x = FLYING_ENEMY_FRAME_WIDTH;
+		gFlyingEnemyClips[1].y = 0;
+		gFlyingEnemyClips[1].w = FLYING_ENEMY_FRAME_WIDTH;
+		gFlyingEnemyClips[1].h = FLYING_ENEMY_FRAME_HEIGHT;
 
-		gEnemyClips[2].x = 64.25 * 2;
-		gEnemyClips[2].y = 0;
-		gEnemyClips[2].w = 64.25;
-		gEnemyClips[2].h = 30;
+		gFlyingEnemyClips[2].x = FLYING_ENEMY_FRAME_WIDTH * 2;
+		gFlyingEnemyClips[2].y = 0;
+		gFlyingEnemyClips[2].w = FLYING_ENEMY_FRAME_WIDTH;
+		gFlyingEnemyClips[2].h = FLYING_ENEMY_FRAME_HEIGHT;
 
-		gEnemyClips[3].x = 64.25 * 3;
-		gEnemyClips[3].y = 0;
-		gEnemyClips[3].w = 64.25;
-		gEnemyClips[3].h = 30;
+		gFlyingEnemyClips[3].x = FLYING_ENEMY_FRAME_WIDTH * 3;
+		gFlyingEnemyClips[3].y = 0;
+		gFlyingEnemyClips[3].w = FLYING_ENEMY_FRAME_WIDTH;
+		gFlyingEnemyClips[3].h = FLYING_ENEMY_FRAME_HEIGHT;
 
 		gGroundEnemyClips[0].x = 0;
 		gGroundEnemyClips[0].y = 0;
-		gGroundEnemyClips[0].w = 29.25;
-		gGroundEnemyClips[0].h = 57;
+		gGroundEnemyClips[0].w = GROUND_ENEMY_FRAME_WIDTH;
+		gGroundEnemyClips[0].h = GROUND_ENEMY_FRAME_HEIGHT;
 
-		gGroundEnemyClips[1].x = 29.25;
+		gGroundEnemyClips[1].x = GROUND_ENEMY_FRAME_WIDTH;
 		gGroundEnemyClips[1].y = 0;
-		gGroundEnemyClips[1].w = 29.25;
-		gGroundEnemyClips[1].h = 57;
+		gGroundEnemyClips[1].w = GROUND_ENEMY_FRAME_WIDTH;
+		gGroundEnemyClips[1].h = GROUND_ENEMY_FRAME_HEIGHT;
 
-		gGroundEnemyClips[2].x = 29.25 * 2;
+		gGroundEnemyClips[2].x = GROUND_ENEMY_FRAME_WIDTH * 2;
 		gGroundEnemyClips[2].y = 0;
-		gGroundEnemyClips[2].w = 29.25;
-		gGroundEnemyClips[2].h = 57;
+		gGroundEnemyClips[2].w = GROUND_ENEMY_FRAME_WIDTH;
+		gGroundEnemyClips[2].h = GROUND_ENEMY_FRAME_HEIGHT;
 
-		gGroundEnemyClips[3].x = 29.25 * 3;
+		gGroundEnemyClips[3].x = GROUND_ENEMY_FRAME_WIDTH * 3;
 		gGroundEnemyClips[3].y = 0;
-		gGroundEnemyClips[3].w = 29.25;
-		gGroundEnemyClips[3].h = 57;
+		gGroundEnemyClips[3].w = GROUND_ENEMY_FRAME_WIDTH;
+		gGroundEnemyClips[3].h = GROUND_ENEMY_FRAME_HEIGHT;
 
+}
+
+void GeneratePowerUp(PowerUp &shield,
+    SDL_Renderer* gRenderer)
+{
+	shield.LoadFromFile("imgs/other/shield.png", gRenderer);
 }
 
 bool CheckColission(Character character,
@@ -475,6 +481,17 @@ bool CheckEnemyColission(Character character,
 		return true;
 	}
 	return false;
+}
+
+bool CheckPowerUpColission(Character character,
+    SDL_Rect* char_clip,
+    PowerUp (&shield))
+{
+	bool collide = false;
+	double distance = (character.GetPosX() + char_clip->w/2 - shield.GetPosX() - shield.GetWidth()) *  (character.GetPosX() + char_clip->w/2 - shield.GetPosX() - shield.GetWidth())
+					+ (character.GetPosY() + char_clip->w/2 - shield.GetPosY() - shield.GetWidth()) *  (character.GetPosY() + char_clip->w/2 - shield.GetPosY() - shield.GetWidth());
+	if(distance <= 1550)collide = true;
+return collide;
 }
 
 void ControlCharFrame(int &frame)

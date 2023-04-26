@@ -7,6 +7,7 @@
 #include "Button.h"
 #include "Character.h"
 #include "Enemy.h"
+#include "PowerUp.h"
 
 class Game
 {
@@ -31,8 +32,6 @@ public:
 
     int OffsetSpeed_Ground = BASE_OFFSET_SPEED;
 	double OffsetSpeed_Bkgr = BASE_OFFSET_SPEED;
-    
-    int lives = 3;
 
     std::string highscore = GetHighScoreFromFile("high_score.txt");
 

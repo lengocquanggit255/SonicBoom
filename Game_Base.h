@@ -11,6 +11,7 @@
 #include <string>
 #include <vector>
 #include <ctime>
+#include <cmath>
 
 #define SDL_ERROR 1
 #define IMG_ERROR 2
@@ -32,6 +33,7 @@
 
 #define GROUND_SPEED 5
 #define ENEMY_SPEED 5
+#define POWER_UP_SPEED 5
 #define MAX_ENEMY_WIDTH 100
 
 #define IN_AIR_ENEMY 1
@@ -63,6 +65,10 @@ const int CHOOSE_CHARACTER_BUTTON_WIDTH = 280;
 const int CHOOSE_CHARACTER_BUTTON_HEIGHT = 350;
 const int CHARACTER_FRAME_WIDTH = 53;
 const int CHARACTER_FRAME_HEIGHT = 57;
+const int GROUND_ENEMY_FRAME_WIDTH = 29.25;
+const int GROUND_ENEMY_FRAME_HEIGHT = 57;
+const int FLYING_ENEMY_FRAME_WIDTH = 64.25;
+const int FLYING_ENEMY_FRAME_HEIGHT = 30;
 
 const int PLAY_BUTON_POSX = 389;
 const int PLAY_BUTTON_POSY= 186;

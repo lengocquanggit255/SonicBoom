@@ -15,6 +15,8 @@ public:
 
 	bool canDoubleJump = true;
 	int jumpCount = 0;
+	int lives = 3;
+	bool haveShield = false;
 
 	Character();
 
@@ -30,7 +32,7 @@ public:
 
 	int GetPosY();
 
-	void ResetCharacter();
+	void ResetCharacter(bool Die);
 
 private:
 	int posX, posY;
