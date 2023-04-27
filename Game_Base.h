@@ -35,7 +35,7 @@
 #define ENEMY_SPEED 5
 #define POWER_UP_SPEED 5
 #define MAX_ENEMY_WIDTH 100
-
+#define MAX_POWER_UP_WIDTH 100
 #define IN_AIR_ENEMY 1
 #define ON_GROUND_ENEMY 0
 

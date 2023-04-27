@@ -110,14 +110,13 @@ void Game :: gameLoop()
 
 	while (Play)// handle play again
 	{
-		srand(time(NULL));
-
 		SDL_Event e;
 		Character character;
 		PowerUp shield;
 		Enemy enemy1(ON_GROUND_ENEMY);
 		Enemy enemy2(ON_GROUND_ENEMY);
 		Enemy enemy3(IN_AIR_ENEMY);
+		srand(time(NULL));
 		
 		Mix_PlayMusic(gMusic, IS_REPEATITIVE);
 		GenerateEnemy(enemy1, enemy2, enemy3, gFlyingEnemyClips, gGroundEnemyClips, gRenderer);
@@ -150,11 +149,12 @@ void Game :: gameLoop()
 				RenderScrollingBackground(OffsetSpeed_Bkgr, gBackgroundTexture, gRenderer);
 				RenderScrollingGround(OffsetSpeed_Ground, acceleration, gGroundTexture, gRenderer);
 
-				character.Move();
+				DrawPlayerScore(gText1Texture, gScoreTexture, textColor, gRenderer, gFont, score);
+				DrawPlayerHighScore(gText2Texture, gHighScoreTexture, textColor, gRenderer, gFont, highscore);
 
 				SDL_Rect* currentClip_Character = nullptr;
-
 				currentClip_Character = &gCharacterClips[frame_Character / SLOW_FRAME_CHAR];
+				character.Move();
 				character.Render(currentClip_Character, gRenderer, gCharacterTexture);
 
 				SDL_Rect* currentClip_GroundEnemy1 = &gGroundEnemyClips[frame_Enemy / SLOW_FRAME_ENEMY];
@@ -168,6 +168,9 @@ void Game :: gameLoop()
 				SDL_Rect* currentClip_FlyingEnemy = &gFlyingEnemyClips[frame_Enemy / SLOW_FRAME_ENEMY];
 				enemy3.Move(acceleration);
 				enemy3.Render(gRenderer, currentClip_FlyingEnemy);
+
+				SDL_Rect* currentClip_Pause = &gPauseButton[PauseButton.currentSprite];
+				PauseButton.Render(currentClip_Pause, gRenderer, gPauseButtonTexture);
 				
 				if(score % 200 == 0)
 				{
@@ -179,13 +182,11 @@ void Game :: gameLoop()
 					shield.Move(acceleration);
 					shield.Render(gRenderer);
 				}
-
-				SDL_Rect* currentClip_Pause = &gPauseButton[PauseButton.currentSprite];
-				PauseButton.Render(currentClip_Pause, gRenderer, gPauseButtonTexture);
-
-
-				DrawPlayerScore(gText1Texture, gScoreTexture, textColor, gRenderer, gFont, score);
-				DrawPlayerHighScore(gText2Texture, gHighScoreTexture, textColor, gRenderer, gFont, highscore);
+				if(shield.GetPosX() < 0)
+				{
+					shield.~PowerUp();
+					shield.isGenerated = false;
+				}
 
 				if (CheckPowerUpColission(character, currentClip_Character, shield))
 				{
@@ -199,8 +200,8 @@ void Game :: gameLoop()
 					
 				}
 
-				if(character.haveShield){
-
+				if(character.haveShield)
+				{
 					shield.currentTime = SDL_GetTicks();
 					if (shield.currentTime - shield.powerUpTimer >= 5000) {
 						if(gCharacterTexture.GetTexture() == gShadowTextureHasShield.GetTexture())gCharacterTexture = gShadowTexture;
@@ -208,7 +209,6 @@ void Game :: gameLoop()
 						std::cout << "Character lost shield" << std::endl;
 						character.haveShield = false;
 					}
-
 				}
 				
 				if (!character.haveShield)
