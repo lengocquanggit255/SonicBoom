@@ -45,49 +45,57 @@
 #define IS_REPEATITIVE -1
 #define NOT_REPEATITIVE 0
 
-#define SMALL_BUTTON 1
-#define COMMON_BUTTON 2
-#define BACK_BUTTON 3
-#define CHOOSE_CHARACTER_BUTTON 4
+enum ButtonType{
+    PLAY_BUTON,
+    HELP_BUTTON,
+    EXIT_BUTTON,
+    BACK_BUTTON,
+    PAUSE_AND_CONTINUE_BUTTON,
+    CHOOSE_CHARACTER_BUTTON,
+};
 
 const std::string WINDOW_TITLE = "Sonic Boom";
 
 const int SCREEN_WIDTH = 928;
 const int SCREEN_HEIGHT = 522;
 
-const int COMMON_BUTTON_WIDTH = 150;
-const int COMMON_BUTTON_HEIGHT = 97;
-const int SMALL_BUTTON_WIDTH = 22;
-const int SMALL_BUTTON_HEIGHT = 34;
-const int BACK_BUTTON_WIDTH = 100;
-const int BACK_BUTTON_HEIGHT = 78;
-const int CHOOSE_CHARACTER_BUTTON_WIDTH = 280;
-const int CHOOSE_CHARACTER_BUTTON_HEIGHT = 350;
-const int CHARACTER_FRAME_WIDTH = 53;
-const int CHARACTER_FRAME_HEIGHT = 57;
-const int GROUND_ENEMY_FRAME_WIDTH = 29.25;
-const int GROUND_ENEMY_FRAME_HEIGHT = 57;
-const int FLYING_ENEMY_FRAME_WIDTH = 64.25;
-const int FLYING_ENEMY_FRAME_HEIGHT = 30;
+const double PLAY_BUTON_WIDTH = 179;
+const double PLAY_BUTON_HEIGHT = 49;
+const double HELP_BUTTON_WIDTH = 171;
+const double HELP_BUTTON_HEIGHT = 49;
+const double EXIT_BUTTON_WIDTH = 157;
+const double EXIT_BUTTON_HEIGHT = 49;
+const double BACK_BUTTON_WIDTH = 146;
+const double BACK_BUTTON_HEIGHT = 35;
+const double PAUSE_AND_CONTINUE_BUTTON_WIDTH = 22;
+const double PAUSE_AND_CONTINUE_BUTTON_HEIGHT = 34;
+const double CHOOSE_CHARACTER_BUTTON_WIDTH = 280;
+const double CHOOSE_CHARACTER_BUTTON_HEIGHT = 350;
+const double CHARACTER_FRAME_WIDTH = 53;
+const double CHARACTER_FRAME_HEIGHT = 57;
+const double GROUND_ENEMY_FRAME_WIDTH = 29.25;
+const double GROUND_ENEMY_FRAME_HEIGHT = 57;
+const double FLYING_ENEMY_FRAME_WIDTH = 64.25;
+const double FLYING_ENEMY_FRAME_HEIGHT = 30;
 
-const int PLAY_BUTON_POSX = 389;
-const int PLAY_BUTTON_POSY= 186;
-const int HELP_BUTTON_POSX = 389;
-const int HELP_BUTTON_POSY = 293;
-const int EXIT_BUTTON_POSX = 389;
-const int EXIT_BUTTON_POSY = 402;
-const int BACK_BUTTON_POSX = 31;
-const int BACK_BUTTON_POSY = 29;
-const int PAUSE_BUTTON_POSX = 31;
-const int PAUSE_BUTTON_POSY = 29;
-const int CONTINUE_BUTTON_POSX = 31;
-const int CONTINUE_BUTTON_POSY = 29;
-const int LIVES_POSX = 100;
-const int LIVES_POSY = 29;
-const int CHOOSE_SONIC_BUTTON_POSX = 36;
-const int CHOOSE_SONIC_BUTTON_POSY = 80;
-const int CHOOSE_SHADOW_BUTTON_POSX = 630;
-const int CHOOSE_SHADOW_BUTTON_POSY = 80;
+const double PLAY_BUTON_POSX = 390.50;
+const double PLAY_BUTTON_POSY= 179.50;
+const double HELP_BUTTON_POSX = 394.50;
+const double HELP_BUTTON_POSY = 260.50;
+const double EXIT_BUTTON_POSX = 400.50;
+const double EXIT_BUTTON_POSY = 335.50;
+const double BACK_BUTTON_POSX = 31;
+const double BACK_BUTTON_POSY = 29;
+const double PAUSE_BUTTON_POSX = 31;
+const double PAUSE_BUTTON_POSY = 29;
+const double CONTINUE_BUTTON_POSX = 31;
+const double CONTINUE_BUTTON_POSY = 29;
+const double LIVES_POSX = 100;
+const double LIVES_POSY = 29;
+const double CHOOSE_SONIC_BUTTON_POSX = 36;
+const double CHOOSE_SONIC_BUTTON_POSY = 80;
+const double CHOOSE_SHADOW_BUTTON_POSX = 630;
+const double CHOOSE_SHADOW_BUTTON_POSY = 80;
 
 
 const int TEXT_1_POSX = 670;

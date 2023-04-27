@@ -26,15 +26,25 @@ bool Button::IsInside(int size)// input is the event and size of the button
 {
 		int x, y;
 		int button_width, button_height;
-		if (size == SMALL_BUTTON)// if small button set width and height
+		if (size == PAUSE_AND_CONTINUE_BUTTON)// if small button set width and height
 		{
-			button_width = SMALL_BUTTON_WIDTH;
-			button_height = SMALL_BUTTON_HEIGHT;
+			button_width = PAUSE_AND_CONTINUE_BUTTON_WIDTH;
+			button_height = PAUSE_AND_CONTINUE_BUTTON_HEIGHT;
 		}
-		else if(size == COMMON_BUTTON)// if big button set width and height (in menu)
+		else if(size == PLAY_BUTON)// if big button set width and height (in menu)
 		{
-			button_width = COMMON_BUTTON_WIDTH;
-			button_height = COMMON_BUTTON_HEIGHT;
+			button_width = PLAY_BUTON_WIDTH;
+			button_height = PLAY_BUTON_HEIGHT;
+		}
+		else if (size == HELP_BUTTON)
+		{
+			button_width = HELP_BUTTON_WIDTH;
+			button_height = HELP_BUTTON_HEIGHT;
+		}
+		else if (size == EXIT_BUTTON)
+		{
+			button_width = EXIT_BUTTON_WIDTH;
+			button_height = EXIT_BUTTON_HEIGHT;
 		}
 		else if(size == BACK_BUTTON)
 		{

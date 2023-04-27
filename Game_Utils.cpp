@@ -109,7 +109,7 @@ void HandlePlayButton(SDL_Event* e,
     bool& Play,
     Mix_Chunk* gClick)
 {
-	if (PlayButton.IsInside(COMMON_BUTTON))// check if the mouse is inside the button
+	if (PlayButton.IsInside(PLAY_BUTON))// check if the mouse is inside the button
 	{
 		switch (e->type)
 		{
@@ -202,7 +202,7 @@ void HandleHelpButton(SDL_Event* e,
 	bool &Quit_Menu, 
 	Mix_Chunk *gClick)
 {
-	if (HelpButton.IsInside(COMMON_BUTTON))
+	if (HelpButton.IsInside(HELP_BUTTON))
 	{
 		switch (e->type)
 		{
@@ -265,7 +265,7 @@ void HandleExitButton(SDL_Event* e,
 	bool& Quit,
 	Mix_Chunk* gClick)
 {
-	if (ExitButton.IsInside(COMMON_BUTTON))
+	if (ExitButton.IsInside(EXIT_BUTTON))
 	{
 		switch (e->type)
 		{
@@ -307,7 +307,7 @@ void HandleContinueButton(Button ContinueButton,
 		}
 		do
 		{
-			if (ContinueButton.IsInside(SMALL_BUTTON))
+			if (ContinueButton.IsInside(PAUSE_AND_CONTINUE_BUTTON))
 			{
 				switch (e->type)
 				{
@@ -349,7 +349,7 @@ void HandlePauseButton(SDL_Event* e,
 	bool &Play,
 	Mix_Chunk *gClick)
 {
-	if (PauseButton.IsInside(SMALL_BUTTON))
+	if (PauseButton.IsInside(PAUSE_AND_CONTINUE_BUTTON))
 	{
 		switch (e->type)
 		{

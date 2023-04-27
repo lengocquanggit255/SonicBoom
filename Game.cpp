@@ -447,10 +447,10 @@ bool Game :: LoadMedia()
 			{
 				for (int i = 0; i < BUTTON_TOTAL; ++i)// một mảng chứa từng frame trong clip playButton
 				{
-					gPlayButton[i].x = COMMON_BUTTON_WIDTH * i; // vị trị frame trong play_button.png
+					gPlayButton[i].x = PLAY_BUTON_WIDTH * i; // vị trị frame trong play_button.png
 					gPlayButton[i].y = 0;
-					gPlayButton[i].w = COMMON_BUTTON_WIDTH;
-					gPlayButton[i].h = COMMON_BUTTON_HEIGHT;
+					gPlayButton[i].w = PLAY_BUTON_WIDTH;
+					gPlayButton[i].h = PLAY_BUTON_HEIGHT;
 				}
 			}
 
@@ -463,10 +463,10 @@ bool Game :: LoadMedia()
 			{
 				for (int i = 0; i < BUTTON_TOTAL; ++i)
 				{
-					gHelpButton[i].x = COMMON_BUTTON_WIDTH * i;
+					gHelpButton[i].x = HELP_BUTTON_WIDTH * i;
 					gHelpButton[i].y = 0;
-					gHelpButton[i].w = COMMON_BUTTON_WIDTH;
-					gHelpButton[i].h = COMMON_BUTTON_HEIGHT;
+					gHelpButton[i].w = HELP_BUTTON_WIDTH;
+					gHelpButton[i].h = HELP_BUTTON_HEIGHT;
 				}
 			}
 
@@ -495,10 +495,10 @@ bool Game :: LoadMedia()
 			{
 				for (int i = 0; i < BUTTON_TOTAL; ++i)
 				{
-					gExitButton[i].x = COMMON_BUTTON_WIDTH * i;
+					gExitButton[i].x = EXIT_BUTTON_WIDTH * i;
 					gExitButton[i].y = 0;
-					gExitButton[i].w = COMMON_BUTTON_WIDTH;
-					gExitButton[i].h = COMMON_BUTTON_HEIGHT;
+					gExitButton[i].w = EXIT_BUTTON_WIDTH;
+					gExitButton[i].h = EXIT_BUTTON_HEIGHT;
 				}
 			}
 
@@ -511,10 +511,10 @@ bool Game :: LoadMedia()
 			{
 				for (int i = 0; i < BUTTON_TOTAL; ++i)
 				{
-					gPauseButton[i].x = SMALL_BUTTON_WIDTH * i;
+					gPauseButton[i].x = PAUSE_AND_CONTINUE_BUTTON_WIDTH * i;
 					gPauseButton[i].y = 0;
-					gPauseButton[i].w = SMALL_BUTTON_WIDTH;
-					gPauseButton[i].h = SMALL_BUTTON_HEIGHT;
+					gPauseButton[i].w = PAUSE_AND_CONTINUE_BUTTON_WIDTH;
+					gPauseButton[i].h = PAUSE_AND_CONTINUE_BUTTON_HEIGHT;
 				}
 			}
 
@@ -527,10 +527,10 @@ bool Game :: LoadMedia()
 			{
 				for (int i = 0; i < BUTTON_TOTAL; ++i)
 				{
-					gContinueButton[i].x = SMALL_BUTTON_WIDTH * i;
+					gContinueButton[i].x = PAUSE_AND_CONTINUE_BUTTON_WIDTH * i;
 					gContinueButton[i].y = 0;
-					gContinueButton[i].w = SMALL_BUTTON_WIDTH;
-					gContinueButton[i].h = SMALL_BUTTON_HEIGHT;
+					gContinueButton[i].w = PAUSE_AND_CONTINUE_BUTTON_WIDTH;
+					gContinueButton[i].h = PAUSE_AND_CONTINUE_BUTTON_HEIGHT;
 				}
 			}
 
