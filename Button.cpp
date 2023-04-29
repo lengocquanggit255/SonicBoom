@@ -5,7 +5,7 @@ Button::Button()
 	position.x = 0;
 	position.y = 0;
 
-	currentSprite = BUTTON_MOUSE_OUT;
+	currentSprite = BUTTON_MOUSE_OVER;
 }
 
 Button::Button(int x, int y)
@@ -13,7 +13,7 @@ Button::Button(int x, int y)
 	position.x = x;
 	position.y = y;
 
-	currentSprite = BUTTON_MOUSE_OUT;
+	currentSprite = BUTTON_MOUSE_OVER;
 }
 
 void Button::SetPosition(int x, int y)
@@ -70,8 +70,16 @@ bool Button::IsInside(int size)// input is the event and size of the button
 		{
 			button_width = EXIT_OPTION_BUTTON_WIDTH;
 			button_height = EXIT_OPTION_BUTTON_HEIGHT;
+		}else if(size == SOUND_BUTTON)
+		{
+			button_width = SOUND_BUTTON_WIDTH;
+			button_height = SOUND_BUTTON_HEIGHT;
+		}else if(size == MUSIC_BUTTON)
+		{
+			button_width = MUSIC_BUTTON_WIDTH;
+			button_height = MUSIC_BUTTON_HEIGHT;
 		}
-
+		
 		SDL_GetMouseState(&x, &y);// Get current mouse position
 
 		bool inside = true;// check if the mouse is inside

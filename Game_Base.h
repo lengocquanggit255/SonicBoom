@@ -58,7 +58,9 @@ enum ButtonType{
     CHOOSE_CHARACTER_BUTTON,
     HARD_MODE_BUTTON,
     EASY_MODE_BUTTON,
-    EXIT_OPTION_BUTTON
+    EXIT_OPTION_BUTTON,
+    SOUND_BUTTON,
+    MUSIC_BUTTON
 };
 
 const std::string WINDOW_TITLE = "Sonic Boom";
@@ -80,6 +82,10 @@ const double EASY_MODE_BUTTON_WIDTH = 250;
 const double EASY_MODE_BUTTON_HEIGHT = 75;
 const double EXIT_OPTION_BUTTON_WIDTH = 50;
 const double EXIT_OPTION_BUTTON_HEIGHT = 50;
+const double SOUND_BUTTON_WIDTH = 50;
+const double SOUND_BUTTON_HEIGHT = 50;
+const double MUSIC_BUTTON_WIDTH = 50;
+const double MUSIC_BUTTON_HEIGHT = 50;
 const double BACK_BUTTON_WIDTH = 146;
 const double BACK_BUTTON_HEIGHT = 35;
 const double PAUSE_AND_CONTINUE_BUTTON_WIDTH = 22;
@@ -107,6 +113,10 @@ const double HARD_MODE_BUTTON_POSX = 338.50;
 const double HARD_MODE_BUTTON_POSY = 260.50;
 const double EASY_MODE_BUTTON_POSX = 339.00;
 const double EASY_MODE_BUTTON_POSY = 173.50;
+const double SOUND_BUTTON_POSX = 31;
+const double SOUND_BUTTON_POSY = 470;
+const double MUSIC_BUTTON_POSX = 91;
+const double MUSIC_BUTTON_POSY = 470;
 const double BACK_BUTTON_POSX = 31;
 const double BACK_BUTTON_POSY = 470;
 const double PAUSE_BUTTON_POSX = 31;

@@ -5,7 +5,6 @@ SDL_Renderer* gRenderer = nullptr;
 SDL_Color textColor = { 0, 0, 0 };
 TTF_Font* gFont = nullptr;
 Mix_Music* gMusic = nullptr;
-Mix_Music* gMenuMusic = nullptr;
 Mix_Chunk* gClick = nullptr;
 Mix_Chunk* gJump = nullptr;
 Mix_Chunk* gLose = nullptr;
@@ -17,6 +16,8 @@ SDL_Rect gOptionButton[BUTTON_TOTAL];
 SDL_Rect gExitOptionButton[BUTTON_TOTAL];
 SDL_Rect gHardModeButton[BUTTON_TOTAL];
 SDL_Rect gEasyModeButton[BUTTON_TOTAL];
+SDL_Rect gSoundButton[BUTTON_TOTAL];
+SDL_Rect gMusicButton[BUTTON_TOTAL];
 SDL_Rect gBackButton[BUTTON_TOTAL];
 SDL_Rect gPauseButton[BUTTON_TOTAL];
 SDL_Rect gContinueButton[BUTTON_TOTAL];
@@ -44,6 +45,8 @@ LTexture gOptionButtonTexture;
 LTexture gExitOptionButtonTexture;
 LTexture gHardModeButtonTexture;
 LTexture gEasyModeButtonTexture;
+LTexture gSoundButtonTexture;
+LTexture gMusicButtonTexture;
 LTexture gBackButtonTexture;
 LTexture gPauseButtonTexture;
 LTexture gContinueButtonTexture;
@@ -72,6 +75,8 @@ Button PauseButton(PAUSE_BUTTON_POSX, PAUSE_BUTTON_POSY);
 Button ContinueButton(CONTINUE_BUTTON_POSX, CONTINUE_BUTTON_POSY);
 Button ChooseSonicButton(CHOOSE_SONIC_BUTTON_POSX, CHOOSE_SONIC_BUTTON_POSY);
 Button ChooseShawdownButton(CHOOSE_SHADOW_BUTTON_POSX, CHOOSE_SHADOW_BUTTON_POSY);
+Button SoundButton(SOUND_BUTTON_POSX, SOUND_BUTTON_POSY);
+Button MusicButton(MUSIC_BUTTON_POSX, MUSIC_BUTTON_POSY);
 
 void Game :: gameLoop()
 {
@@ -84,7 +89,7 @@ void Game :: gameLoop()
 	
 	while(!Quit_Menu || Play)
 	{
-		Mix_PlayMusic(gMenuMusic, IS_REPEATITIVE);// play menu music
+		Mix_PlayMusic(gMusic, IS_REPEATITIVE);
 		while (!Quit_Menu)
 		{
 			SDL_Event e_mouse;
@@ -115,6 +120,11 @@ void Game :: gameLoop()
 									gRenderer, Quit_Menu, gameMode, gClick);
 
 				HandleExitButton(&e_mouse, ExitButton, Quit_Menu, gClick);
+
+				HandleSoundButton(&e_mouse, gSoundButton, SoundButton, gClick, gJump, gLose);
+
+				HandleMusicButton(&e_mouse, gMusicButton, MusicButton);
+
 			}
 
 			gMenuTexture.Render(0, 0, gRenderer);
@@ -131,6 +141,12 @@ void Game :: gameLoop()
 			SDL_Rect* currentClip_Option = &gOptionButton[OptionButton.currentSprite];
 			OptionButton.Render(currentClip_Option, gRenderer, gOptionButtonTexture);
 
+			SDL_Rect* currentClip_Sound = &gSoundButton[SoundButton.currentSprite];
+			SoundButton.Render(currentClip_Sound, gRenderer, gSoundButtonTexture);
+
+			SDL_Rect* currentClip_Music = &gMusicButton[MusicButton.currentSprite];
+			MusicButton.Render(currentClip_Music, gRenderer, gMusicButtonTexture);
+
 			SDL_RenderPresent(gRenderer); //present the rendered textures to the screen
 		}
 		
@@ -144,7 +160,6 @@ void Game :: gameLoop()
 			Enemy enemy3(IN_AIR_ENEMY);
 			srand(time(NULL));
 			
-			Mix_PlayMusic(gMusic, IS_REPEATITIVE);
 			GenerateEnemy(enemy1, enemy2, enemy3, gFlyingEnemyClips, gGroundEnemyClips, gRenderer);
 			
 			SetGameMode(character.lives);
@@ -400,13 +415,6 @@ bool Game :: LoadMedia()
 		success = false;
 	}
 
-	gMenuMusic = Mix_LoadMUS("sound/menu_audio.wav");
-	if (gMenuMusic == nullptr)
-	{
-		LogError("Failed to load menu music", MIX_ERROR);
-		success = false;
-	}
-
 	gClick = Mix_LoadWAV("sound/mouse_click.wav");
 	if (gClick == nullptr)
 	{
@@ -623,6 +631,38 @@ bool Game :: LoadMedia()
 				}
 			}
 
+			if (!gSoundButtonTexture.LoadFromFile("imgs/button/small_button/sound_button.png", gRenderer))
+			{
+				std::cout << "Failed to load sound button image" << std::endl;
+				success = false;
+			}
+			else
+			{
+				for (int i = 0; i < BUTTON_TOTAL; ++i)
+				{
+					gSoundButton[i].x = SOUND_BUTTON_WIDTH * i;
+					gSoundButton[i].y = 0;
+					gSoundButton[i].w = SOUND_BUTTON_WIDTH;
+					gSoundButton[i].h = SOUND_BUTTON_HEIGHT;
+				}
+			}
+
+			if (!gMusicButtonTexture.LoadFromFile("imgs/button/small_button/music_button.png", gRenderer))
+			{
+				std::cout << "Failed to load music button image" << std::endl;
+				success = false;
+			}
+			else
+			{
+				for (int i = 0; i < BUTTON_TOTAL; ++i)
+				{
+					gMusicButton[i].x = MUSIC_BUTTON_WIDTH * i;
+					gMusicButton[i].y = 0;
+					gMusicButton[i].w = MUSIC_BUTTON_WIDTH;
+					gMusicButton[i].h = MUSIC_BUTTON_HEIGHT;
+				}
+			}
+
 			if (!gPauseButtonTexture.LoadFromFile("imgs/button/small_button/pause_button.png", gRenderer))
 			{
 				std::cout << "Failed to load pause_button image " << std::endl;
@@ -764,6 +804,7 @@ void Game::Close()
 {
 	gMenuTexture.Free();
 	gInstructionTexture.Free();
+	gOptionTexture.Free();
 	gCharacterTexture.Free();
 	gSonicTexture.Free();
 	gSonicTextureHasShield.Free();
@@ -774,6 +815,10 @@ void Game::Close()
 	gHelpButtonTexture.Free();
 	gOptionButtonTexture.Free();
 	gExitOptionButtonTexture.Free();
+	gHardModeButtonTexture.Free();
+	gEasyModeButtonTexture.Free();
+	gSoundButtonTexture.Free();
+	gMusicButtonTexture.Free();
 	gExitButtonTexture.Free();
 	gBackButtonTexture.Free();
 	gPauseButtonTexture.Free();
@@ -795,12 +840,10 @@ void Game::Close()
 	
 
 	Mix_FreeMusic(gMusic);
-	Mix_FreeMusic(gMenuMusic);
 	Mix_FreeChunk(gClick);
 	Mix_FreeChunk(gLose);
 	Mix_FreeChunk(gJump);
 	gMusic = nullptr;
-	gMenuMusic = nullptr;
 	gClick = nullptr;
 	gLose = nullptr;
 	gJump = nullptr;

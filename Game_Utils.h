@@ -73,6 +73,17 @@ void HandleExitButton(SDL_Event* e,
 	bool& Quit_Menu,
 	Mix_Chunk* gClick);
 
+void HandleSoundButton(SDL_Event* e,
+    SDL_Rect(&gSoundButton)[BUTTON_TOTAL],
+	Button& SoundButton,
+	Mix_Chunk*(&gClick),
+    Mix_Chunk*(&gJump),
+    Mix_Chunk*(&gLose));
+
+void HandleMusicButton(SDL_Event* e,
+    SDL_Rect(&gMusicButton)[BUTTON_TOTAL],
+	Button& MusicButton);
+
 void HandleContinueButton(Button ContinueButton,
     LTexture gContinueButtonTexture,
     SDL_Event* e,

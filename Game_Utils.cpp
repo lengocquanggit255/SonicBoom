@@ -282,7 +282,7 @@ void HandleOptionButton (SDL_Event* e,
 	int &gameMode,
 	Mix_Chunk *gClick)
 {
-	if (OptionButton.IsInside(HELP_BUTTON))
+	if (OptionButton.IsInside(OPTION_BUTTON))
 	{
 		switch (e->type)
 		{
@@ -370,6 +370,63 @@ void HandleOptionButton (SDL_Event* e,
 		OptionButton.currentSprite = BUTTON_MOUSE_OUT;
 	}
 }
+
+void HandleSoundButton(SDL_Event* e,
+    SDL_Rect(&gSoundButton)[BUTTON_TOTAL],
+	Button& SoundButton,
+	Mix_Chunk*(&gClick),
+    Mix_Chunk*(&gJump),
+    Mix_Chunk*(&gLose))
+{
+	if (SoundButton.IsInside(SOUND_BUTTON))
+	{
+		switch (e->type)
+		{
+			case SDL_MOUSEBUTTONDOWN:
+				if(SoundButton.currentSprite == BUTTON_MOUSE_OVER)
+				{
+					SoundButton.currentSprite = BUTTON_MOUSE_OUT;
+					gClick = nullptr;
+					gJump = nullptr;
+					gLose = nullptr;
+				}
+				else if(SoundButton.currentSprite == BUTTON_MOUSE_OUT)
+				{
+					SoundButton.currentSprite = BUTTON_MOUSE_OVER;
+					gClick = Mix_LoadWAV("sound/mouse_click.wav");
+					gJump = Mix_LoadWAV("sound/jump_sound.wav");
+					gLose = Mix_LoadWAV("sound/lose_sound.wav");
+				}
+				break;
+		}
+	}
+
+}
+
+void HandleMusicButton(SDL_Event* e,
+    SDL_Rect(&gMusicButton)[BUTTON_TOTAL],
+	Button& MusicButton)
+{
+	if (MusicButton.IsInside(MUSIC_BUTTON))
+	{
+		switch (e->type)
+		{
+			case SDL_MOUSEBUTTONDOWN:
+				if(MusicButton.currentSprite == BUTTON_MOUSE_OVER)
+				{
+					MusicButton.currentSprite = BUTTON_MOUSE_OUT;
+					Mix_PauseMusic();
+				}
+				else if(MusicButton.currentSprite == BUTTON_MOUSE_OUT)
+				{
+					MusicButton.currentSprite = BUTTON_MOUSE_OVER;
+					Mix_ResumeMusic();
+				}
+				break;
+		}
+	}
+}
+
 //set tình trạng của button để render
 void HandleExitButton(SDL_Event* e,
 	Button& ExitButton,
