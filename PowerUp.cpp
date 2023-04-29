@@ -26,7 +26,7 @@ PowerUp::~PowerUp()
 
 	if (PowerUpTexture != nullptr)
 	{
-		PowerUpTexture = nullptr;
+		SDL_DestroyTexture(PowerUpTexture);
 	}
 }
 

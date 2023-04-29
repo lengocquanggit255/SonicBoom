@@ -17,7 +17,10 @@ public:
     bool isRunning(){return running;}
     void gameLoop();
     void ResetGame();
+    void SetGameMode(int &lives);
     void Close();
+
+    int gameMode = EASY_MODE;
 
     bool Quit_Menu = false;
     bool Play = false;

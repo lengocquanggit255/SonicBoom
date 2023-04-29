@@ -51,6 +51,23 @@ void HandleHelpButton(SDL_Event* e,
     bool& Quit_game,
     Mix_Chunk* gClick);
 
+void HandleOptionButton (SDL_Event* e,
+	SDL_Rect(&gExitOptionButton)[BUTTON_TOTAL],
+	SDL_Rect(&gHardModeButton)[BUTTON_TOTAL],
+	SDL_Rect(&gEasyModeButton)[BUTTON_TOTAL],
+	Button& OptionButton,
+	Button& HardModeButton,
+	Button& EasyModeButton,
+	Button& ExitOptionButton, 
+	LTexture gOptionTexture,
+	LTexture gHardModeButtonTexture,
+	LTexture gEasyModeButtonTexture,
+	LTexture gExitOptionButtonTexture, 
+	SDL_Renderer *gRenderer, 
+	bool &Quit_Menu, 
+    int &gameMode,
+	Mix_Chunk *gClick);
+
 void HandleExitButton(SDL_Event* e,
 	Button& ExitButton,
 	bool& Quit_Menu,
@@ -126,6 +143,7 @@ void DrawPlayerHighScore(LTexture gTextTexture,
 bool AskToPlayAgain(LTexture gLoseTexture,
     SDL_Event* e,
     SDL_Renderer* gRenderer,
-    bool& Play);
+    bool& Play,
+    bool &Quit_Menu);
 
 #endif // !GAME_UTILS_H_

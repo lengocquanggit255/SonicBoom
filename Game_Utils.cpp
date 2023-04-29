@@ -125,6 +125,12 @@ void HandlePlayButton(SDL_Event* e,
 			{
 				do
 				{
+					if (e->type == SDL_QUIT)
+					{
+						ChooseDone = true;
+						QuitMenu = true;
+					}
+
 					if (ChooseSonicButton.IsInside(CHOOSE_CHARACTER_BUTTON))
 					{
 						switch (e->type)
@@ -224,7 +230,7 @@ void HandleHelpButton(SDL_Event* e,
 						ReadDone = true;
 						Quit_Menu = true;
 					}
-					else if (BackButton.IsInside(BACK_BUTTON))
+					if (BackButton.IsInside(BACK_BUTTON))
 					{
 						switch (e->type)
 						{
@@ -259,6 +265,111 @@ void HandleHelpButton(SDL_Event* e,
 	}
 }
 
+void HandleOptionButton (SDL_Event* e,
+	SDL_Rect(&gExitOptionButton)[BUTTON_TOTAL],
+	SDL_Rect(&gHardModeButton)[BUTTON_TOTAL],
+	SDL_Rect(&gEasyModeButton)[BUTTON_TOTAL],
+	Button& OptionButton,
+	Button& HardModeButton,
+	Button& EasyModeButton,
+	Button& ExitOptionButton, 
+	LTexture gOptionTexture,
+	LTexture gHardModeButtonTexture,
+	LTexture gEasyModeButtonTexture,
+	LTexture gExitOptionButtonTexture, 
+	SDL_Renderer *gRenderer, 
+	bool &Quit_Menu,
+	int &gameMode,
+	Mix_Chunk *gClick)
+{
+	if (OptionButton.IsInside(HELP_BUTTON))
+	{
+		switch (e->type)
+		{
+		default:
+			OptionButton.currentSprite = BUTTON_MOUSE_OVER;
+			break;
+		case SDL_MOUSEBUTTONDOWN:
+			OptionButton.currentSprite = BUTTON_MOUSE_OVER;
+			Mix_PlayChannel(MIX_CHANNEL, gClick, NOT_REPEATITIVE);
+
+			bool SetUpDone = false;
+			// instruction loop
+			while (!SetUpDone)
+			{
+				do
+				{
+					if (e->type == SDL_QUIT)
+					{
+						SetUpDone = true;
+						Quit_Menu = true;
+					}
+					if (ExitOptionButton.IsInside(EXIT_OPTION_BUTTON))
+					{
+						switch (e->type)
+						{
+						default:
+							ExitOptionButton.currentSprite = BUTTON_MOUSE_OVER;
+							break;
+						case SDL_MOUSEBUTTONDOWN:
+							ExitOptionButton.currentSprite = BUTTON_MOUSE_OVER;
+							Mix_PlayChannel(MIX_CHANNEL, gClick, NOT_REPEATITIVE);
+							SetUpDone = true;
+							break;
+						}
+					}
+					else
+					{
+						ExitOptionButton.currentSprite = BUTTON_MOUSE_OUT;
+					}
+
+					if (HardModeButton.IsInside(HARD_MODE_BUTTON))
+					{
+						switch (e->type)
+						{
+						case SDL_MOUSEBUTTONDOWN:
+							HardModeButton.currentSprite = BUTTON_MOUSE_OVER;
+							EasyModeButton.currentSprite = BUTTON_MOUSE_OUT;
+							gameMode = HARD_MODE;
+							Mix_PlayChannel(MIX_CHANNEL, gClick, NOT_REPEATITIVE);
+							break;
+						}
+					}
+	
+					if (EasyModeButton.IsInside(EASY_MODE_BUTTON))
+					{
+						switch (e->type)
+						{
+						case SDL_MOUSEBUTTONDOWN:
+							EasyModeButton.currentSprite = BUTTON_MOUSE_OVER;
+							HardModeButton.currentSprite = BUTTON_MOUSE_OUT;
+							gameMode = EASY_MODE;
+							Mix_PlayChannel(MIX_CHANNEL, gClick, NOT_REPEATITIVE);
+							break;
+						}
+					}
+
+					gOptionTexture.Render(327.00, 131.50, gRenderer);
+					
+					SDL_Rect* currentClip_Exit = &gExitOptionButton[ExitOptionButton.currentSprite];
+					ExitOptionButton.Render(currentClip_Exit, gRenderer, gExitOptionButtonTexture);
+					
+					SDL_Rect* currentClip_Hard_mode = &gHardModeButton[HardModeButton.currentSprite];
+					HardModeButton.Render(currentClip_Hard_mode, gRenderer, gHardModeButtonTexture);
+
+					SDL_Rect* currentClip_Easy_mode = &gEasyModeButton[EasyModeButton.currentSprite];
+					EasyModeButton.Render(currentClip_Easy_mode, gRenderer, gEasyModeButtonTexture);
+
+					SDL_RenderPresent(gRenderer);
+				} while ((SDL_PollEvent(e) != 0 && e->type == SDL_MOUSEBUTTONDOWN) || e->type == SDL_MOUSEMOTION);
+			}
+			break;
+		}
+	}else
+	{
+		OptionButton.currentSprite = BUTTON_MOUSE_OUT;
+	}
+}
 //set tình trạng của button để render
 void HandleExitButton(SDL_Event* e,
 	Button& ExitButton,
@@ -363,7 +474,8 @@ void HandlePauseButton(SDL_Event* e,
 				break;
 			case SDL_MOUSEBUTTONUP:
 				Game_State = false;
-				HandleContinueButton(ContinueButton, gContinueButtonTexture, e, gRenderer, gContinueButton, Game_State, Quit, Play, gClick);
+				HandleContinueButton(ContinueButton, gContinueButtonTexture, e, gRenderer, 
+									gContinueButton, Game_State, Quit, Play, gClick);
 				break;
 		}
 	}
@@ -543,7 +655,8 @@ void DrawPlayerHighScore(LTexture gTextTexture,
 bool AskToPlayAgain(LTexture gLoseTexture,
 	SDL_Event *e, 
 	SDL_Renderer *gRenderer,
-	bool &Play)
+	bool &Play,
+	bool &Quit_Menu)
 {
 	bool Play_Again = false;
 	if (Play)
@@ -571,6 +684,7 @@ bool AskToPlayAgain(LTexture gLoseTexture,
 					case SDLK_ESCAPE:
 						End_Of_Selection_State = true;
 						Play = false;
+						Quit_Menu = false;
 						break;
 					}
 				}

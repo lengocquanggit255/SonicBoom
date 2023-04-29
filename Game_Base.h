@@ -45,13 +45,20 @@
 #define IS_REPEATITIVE -1
 #define NOT_REPEATITIVE 0
 
+#define EASY_MODE 0
+#define HARD_MODE 1
+
 enum ButtonType{
     PLAY_BUTON,
     HELP_BUTTON,
     EXIT_BUTTON,
+    OPTION_BUTTON,
     BACK_BUTTON,
     PAUSE_AND_CONTINUE_BUTTON,
     CHOOSE_CHARACTER_BUTTON,
+    HARD_MODE_BUTTON,
+    EASY_MODE_BUTTON,
+    EXIT_OPTION_BUTTON
 };
 
 const std::string WINDOW_TITLE = "Sonic Boom";
@@ -65,6 +72,14 @@ const double HELP_BUTTON_WIDTH = 171;
 const double HELP_BUTTON_HEIGHT = 49;
 const double EXIT_BUTTON_WIDTH = 157;
 const double EXIT_BUTTON_HEIGHT = 49;
+const double OPTION_BUTTON_WIDTH = 273;
+const double OPTION_BUTTON_HEIGHT = 49;
+const double HARD_MODE_BUTTON_WIDTH = 250;
+const double HARD_MODE_BUTTON_HEIGHT = 75;
+const double EASY_MODE_BUTTON_WIDTH = 250;
+const double EASY_MODE_BUTTON_HEIGHT = 75;
+const double EXIT_OPTION_BUTTON_WIDTH = 50;
+const double EXIT_OPTION_BUTTON_HEIGHT = 50;
 const double BACK_BUTTON_WIDTH = 146;
 const double BACK_BUTTON_HEIGHT = 35;
 const double PAUSE_AND_CONTINUE_BUTTON_WIDTH = 22;
@@ -78,14 +93,22 @@ const double GROUND_ENEMY_FRAME_HEIGHT = 57;
 const double FLYING_ENEMY_FRAME_WIDTH = 64.25;
 const double FLYING_ENEMY_FRAME_HEIGHT = 30;
 
-const double PLAY_BUTON_POSX = 390.50;
-const double PLAY_BUTTON_POSY= 179.50;
-const double HELP_BUTTON_POSX = 394.50;
-const double HELP_BUTTON_POSY = 260.50;
-const double EXIT_BUTTON_POSX = 400.50;
-const double EXIT_BUTTON_POSY = 335.50;
+const double PLAY_BUTON_POSX = 390;
+const double PLAY_BUTTON_POSY = 180;
+const double HELP_BUTTON_POSX = 394;
+const double HELP_BUTTON_POSY = 260;
+const double OPTION_BUTTON_POSX = 340;
+const double OPTION_BUTTON_POSY = 340;
+const double EXIT_BUTTON_POSX = 400;
+const double EXIT_BUTTON_POSY = 420;
+const double EXIT_OPTION_BUTTON_POSX = 443;
+const double EXIT_OPTION_BUTTON_POSY = 470.00;
+const double HARD_MODE_BUTTON_POSX = 338.50;
+const double HARD_MODE_BUTTON_POSY = 260.50;
+const double EASY_MODE_BUTTON_POSX = 339.00;
+const double EASY_MODE_BUTTON_POSY = 173.50;
 const double BACK_BUTTON_POSX = 31;
-const double BACK_BUTTON_POSY = 29;
+const double BACK_BUTTON_POSY = 470;
 const double PAUSE_BUTTON_POSX = 31;
 const double PAUSE_BUTTON_POSY = 29;
 const double CONTINUE_BUTTON_POSX = 31;

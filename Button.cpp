@@ -45,6 +45,10 @@ bool Button::IsInside(int size)// input is the event and size of the button
 		{
 			button_width = EXIT_BUTTON_WIDTH;
 			button_height = EXIT_BUTTON_HEIGHT;
+		}else if(size == OPTION_BUTTON)
+		{
+			button_width = OPTION_BUTTON_WIDTH;
+			button_height = OPTION_BUTTON_HEIGHT;
 		}
 		else if(size == BACK_BUTTON)
 		{
@@ -54,6 +58,18 @@ bool Button::IsInside(int size)// input is the event and size of the button
 		{
 			button_width = CHOOSE_CHARACTER_BUTTON_WIDTH;
 			button_height = CHOOSE_CHARACTER_BUTTON_HEIGHT;
+		}else if(size == HARD_MODE_BUTTON)
+		{
+			button_width = HARD_MODE_BUTTON_WIDTH;
+			button_height = HARD_MODE_BUTTON_HEIGHT;
+		}else if(size == EASY_MODE_BUTTON)
+		{
+			button_width = EASY_MODE_BUTTON_WIDTH;
+			button_height = EASY_MODE_BUTTON_HEIGHT;
+		}else if(size == EXIT_OPTION_BUTTON)
+		{
+			button_width = EXIT_OPTION_BUTTON_WIDTH;
+			button_height = EXIT_OPTION_BUTTON_HEIGHT;
 		}
 
 		SDL_GetMouseState(&x, &y);// Get current mouse position
