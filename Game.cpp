@@ -86,10 +86,12 @@ void Game :: gameLoop()
 	if (!LoadMedia())printf("Failed to load media!\n");
 	else std::cout << "Succeeded to load media" << std::endl;
 
+	Mix_PlayMusic(gMusic, IS_REPEATITIVE);
 	
 	while(!Quit_Menu || Play)
 	{
-		if(MusicButton.currentSprite == BUTTON_MOUSE_OVER)Mix_PlayMusic(gMusic, IS_REPEATITIVE);
+		if(MusicButton.currentSprite == BUTTON_MOUSE_OVER)Mix_ResumeMusic();
+		else Mix_PauseMusic();
 		while (!Quit_Menu)
 		{
 			SDL_Event e_mouse;
@@ -155,6 +157,7 @@ void Game :: gameLoop()
 			SDL_Event e;
 			Character character;
 			PowerUp shield;
+			PowerUp live;
 			Enemy enemy1(ON_GROUND_ENEMY);
 			Enemy enemy2(ON_GROUND_ENEMY);
 			Enemy enemy3(IN_AIR_ENEMY);
@@ -224,20 +227,35 @@ void Game :: gameLoop()
 					SDL_Rect* currentClip_Pause = &gPauseButton[PauseButton.currentSprite];
 					PauseButton.Render(currentClip_Pause, gRenderer, gPauseButtonTexture);
 					
-					if(score % 200 == 0)
+					if(score % 1000 == 0)
 					{
 						shield.isGenerated = true;
-						GeneratePowerUp(shield, gRenderer);
+						GeneratePowerUp(shield, gRenderer, SHIELD);
+					}else if(score % 100 == 0)
+					{
+						live.isGenerated = true;
+						GeneratePowerUp(live, gRenderer, LIVE);
 					}
+
 					if(shield.isGenerated)
 					{
-						shield.Move(acceleration);
+						shield.Move(acceleration, SHIELD);
 						shield.Render(gRenderer);
+					}else if(live.isGenerated)
+					{
+						live.Move(acceleration, LIVE);
+						live.Render(gRenderer);
 					}
+
 					if(shield.GetPosX() < 0)
 					{
 						shield.~PowerUp();
 						shield.isGenerated = false;
+					}
+					if(live.GetPosX() < 0)
+					{
+						live.~PowerUp();
+						live.isGenerated = false;
 					}
 
 					if (CheckPowerUpColission(character, currentClip_Character, shield))
@@ -249,7 +267,12 @@ void Game :: gameLoop()
 						if(gCharacterTexture.GetTexture() == gShadowTexture.GetTexture())gCharacterTexture = gShadowTextureHasShield;
 						if(gCharacterTexture.GetTexture() == gSonicTexture.GetTexture())gCharacterTexture = gSonicTextureHasShield;
 						std::cout << "Character has shield" << std::endl;
-						
+					}
+					if(CheckPowerUpColission(character, currentClip_Character, live))
+					{
+						if(character.lives < 3)character.lives++;
+						live.~PowerUp();
+						live.isGenerated = false;
 					}
 
 					if(character.haveShield)
@@ -301,6 +324,7 @@ void Game :: gameLoop()
 
 				ResetGame();
 				character.ResetCharacter(Die);
+				if(MusicButton.currentSprite == BUTTON_MOUSE_OVER)Mix_ResumeMusic();
 			}else{
 				ResetGame();
 				enemy1.~Enemy();

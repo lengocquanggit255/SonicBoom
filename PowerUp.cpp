@@ -72,14 +72,26 @@ void PowerUp::Render(SDL_Renderer* gRenderer, SDL_Rect* currentClip)
 }
 
 
-void PowerUp:: Move(const int& acceleration)
+void PowerUp:: Move(const int& acceleration, int type)
 {
-    posX -= (ENEMY_SPEED + acceleration + 1.5);
-    posY = 150 * sin(fmod(posX, SCREEN_WIDTH + POWER_UP_POSITION_RANGE) / 150) + 150;
-    if (posX + MAX_ENEMY_WIDTH < 0)
+	if(type == SHIELD)
 	{
-		posX = rand() % (SCREEN_WIDTH + POWER_UP_POSITION_RANGE) + SCREEN_WIDTH;
-        posY = rand() % (POWER_UP_MAX_HEIGHT - POWER_UP_MIN_HEIGHT + 1) + POWER_UP_MIN_HEIGHT;
+		posX -= (ENEMY_SPEED + acceleration + 1.5);
+		posY = 150 * sin(fmod(posX, SCREEN_WIDTH + POWER_UP_POSITION_RANGE) / 150) + 150;
+		if (posX + MAX_ENEMY_WIDTH < 0)
+		{
+			posX = rand() % (SCREEN_WIDTH + POWER_UP_POSITION_RANGE) + SCREEN_WIDTH;
+			posY = rand() % (POWER_UP_MAX_HEIGHT - POWER_UP_MIN_HEIGHT + 1) + POWER_UP_MIN_HEIGHT;
+		}
+	}else if(type == LIVE)
+	{
+		posX -= (ENEMY_SPEED + acceleration + 1.5);
+		posY = 150 * sin(fmod(posX, SCREEN_WIDTH + POWER_UP_POSITION_RANGE) / 150) + 150;
+		if (posX + MAX_ENEMY_WIDTH < 0)
+		{
+			posX = rand() % (SCREEN_WIDTH + POWER_UP_POSITION_RANGE) + SCREEN_WIDTH;
+			posY = rand() % (POWER_UP_MAX_HEIGHT - POWER_UP_MIN_HEIGHT + 1) + POWER_UP_MIN_HEIGHT;
+		}
 	}
 }
 

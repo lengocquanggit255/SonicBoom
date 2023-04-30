@@ -595,10 +595,11 @@ void GenerateEnemy(Enemy& enemy1,
 
 }
 
-void GeneratePowerUp(PowerUp &shield,
-    SDL_Renderer* gRenderer)
+void GeneratePowerUp(PowerUp &power,
+    SDL_Renderer* gRenderer, int type)
 {
-	shield.LoadFromFile("imgs/other/shield.png", gRenderer);
+	if(type == SHIELD)power.LoadFromFile("imgs/other/shield.png", gRenderer);
+	else if(type == LIVE)power.LoadFromFile("imgs/other/1lives.png", gRenderer);
 }
 
 bool CheckColission(Character character,

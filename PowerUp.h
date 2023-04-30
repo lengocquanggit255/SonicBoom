@@ -17,7 +17,7 @@ public:
 
 	void LoadFromFile(std::string path, SDL_Renderer* gRenderer);
 
-	void Move(const int& acceleration);
+	void Move(const int& acceleration, int type);
 
 	void Render(SDL_Renderer* gRenderer, SDL_Rect* currentClip = nullptr);
 

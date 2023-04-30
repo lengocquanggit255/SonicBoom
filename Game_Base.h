@@ -63,6 +63,11 @@ enum ButtonType{
     MUSIC_BUTTON
 };
 
+enum PowerUpType{
+    SHIELD,
+    LIVE
+};
+
 const std::string WINDOW_TITLE = "Sonic Boom";
 
 const int SCREEN_WIDTH = 928;

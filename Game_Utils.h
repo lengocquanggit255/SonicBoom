@@ -112,8 +112,8 @@ void GenerateEnemy(Enemy& enemy1,
     SDL_Rect(&gGroundEnemyClips)[GROUND_ENEMY_FRAMES],
     SDL_Renderer* gRenderer);
 
-void GeneratePowerUp(PowerUp &shield,
-    SDL_Renderer* gRenderer);
+void GeneratePowerUp(PowerUp &power,
+    SDL_Renderer* gRenderer, int type);
 
 bool CheckColission(Character character,
     SDL_Rect* char_clip,
