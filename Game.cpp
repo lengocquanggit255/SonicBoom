@@ -89,7 +89,7 @@ void Game :: gameLoop()
 	
 	while(!Quit_Menu || Play)
 	{
-		Mix_PlayMusic(gMusic, IS_REPEATITIVE);
+		if(MusicButton.currentSprite == BUTTON_MOUSE_OVER)Mix_PlayMusic(gMusic, IS_REPEATITIVE);
 		while (!Quit_Menu)
 		{
 			SDL_Event e_mouse;
