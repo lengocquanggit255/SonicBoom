@@ -231,7 +231,7 @@ void Game :: gameLoop()
 					{
 						shield.isGenerated = true;
 						GeneratePowerUp(shield, gRenderer, SHIELD);
-					}else if(score % 100 == 0)
+					}else if(score % 200 == 0)
 					{
 						live.isGenerated = true;
 						GeneratePowerUp(live, gRenderer, LIVE);
