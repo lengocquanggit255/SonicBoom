@@ -227,11 +227,11 @@ void Game :: gameLoop()
 					SDL_Rect* currentClip_Pause = &gPauseButton[PauseButton.currentSprite];
 					PauseButton.Render(currentClip_Pause, gRenderer, gPauseButtonTexture);
 					
-					if(score % 1000 == 0)
+					if(score % 200 == 0)
 					{
 						shield.isGenerated = true;
 						GeneratePowerUp(shield, gRenderer, SHIELD);
-					}else if(score % 200 == 0)
+					}else if(score % 400 == 0)
 					{
 						live.isGenerated = true;
 						GeneratePowerUp(live, gRenderer, LIVE);
