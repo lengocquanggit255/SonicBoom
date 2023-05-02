@@ -3,8 +3,8 @@
 
 #include "LTexture.h"
 
-#define POWER_UP_MAX_HEIGHT 200
-#define POWER_UP_MIN_HEIGHT 300
+#define POWER_UP_MAX_HEIGHT 300
+#define POWER_UP_MIN_HEIGHT 400
 
 #define POWER_UP_POSITION_RANGE 250
 

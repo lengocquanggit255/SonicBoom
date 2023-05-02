@@ -655,13 +655,11 @@ bool CheckEnemyColission(Character character,
 
 bool CheckPowerUpColission(Character character,
     SDL_Rect* char_clip,
-    PowerUp (&shield))
+    PowerUp (&power))
 {
-	bool collide = false;
-	double distance = (character.GetPosX() + char_clip->w/2 - shield.GetPosX() - shield.GetWidth()) *  (character.GetPosX() + char_clip->w/2 - shield.GetPosX() - shield.GetWidth())
-					+ (character.GetPosY() + char_clip->w/2 - shield.GetPosY() - shield.GetWidth()) *  (character.GetPosY() + char_clip->w/2 - shield.GetPosY() - shield.GetWidth());
-	if(distance <= 1550)collide = true;
-return collide;
+	bool horizontalCollision = (character.GetPosX() + char_clip->w >= power.GetPosX() ) && (power.GetPosX()  + power.GetWidth() >= character.GetPosX());
+	bool verticalCollision = (character.GetPosY() + char_clip->h >= power.GetPosY()) && (power.GetPosY() + power.GetHeight() >= character.GetPosY());
+	return horizontalCollision && verticalCollision;
 }
 
 void ControlCharFrame(int &frame)

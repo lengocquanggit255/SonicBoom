@@ -131,7 +131,7 @@ bool CheckEnemyColission(Character character,
 
 bool CheckPowerUpColission(Character character,
     SDL_Rect* char_clip,
-    PowerUp (&shield));
+    PowerUp (&power));
 
 void ControlCharFrame(int& frame);
 

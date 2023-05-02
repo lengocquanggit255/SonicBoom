@@ -86,7 +86,7 @@ void PowerUp:: Move(const int& acceleration, int type)
 	}else if(type == LIVE)
 	{
 		posX -= (ENEMY_SPEED + acceleration + 1.5);
-		posY = 150 * cos(fmod(posX, SCREEN_WIDTH + POWER_UP_POSITION_RANGE) / 150) + 150;
+		posY = 150 * cos(fmod(posX, SCREEN_WIDTH + POWER_UP_POSITION_RANGE) / 150) + 250;
 		if (posX + MAX_ENEMY_WIDTH < 0)
 		{
 			posX = rand() % (SCREEN_WIDTH + POWER_UP_POSITION_RANGE) + SCREEN_WIDTH;
@@ -113,4 +113,9 @@ int PowerUp::GetPosY()
 int PowerUp::GetWidth()
 {
 	return eWidth;
+}
+
+int PowerUp:: GetHeight()
+{
+	return eHeight;
 }

@@ -231,7 +231,8 @@ void Game :: gameLoop()
 					{
 						shield.isGenerated = true;
 						GeneratePowerUp(shield, gRenderer, SHIELD);
-					}else if(score % 400 == 0)
+					}
+					if(score % 300 == 0)
 					{
 						live.isGenerated = true;
 						GeneratePowerUp(live, gRenderer, LIVE);
@@ -241,7 +242,8 @@ void Game :: gameLoop()
 					{
 						shield.Move(acceleration, SHIELD);
 						shield.Render(gRenderer);
-					}else if(live.isGenerated)
+					}
+					if(live.isGenerated)
 					{
 						live.Move(acceleration, LIVE);
 						live.Render(gRenderer);
