@@ -101,8 +101,8 @@ const double CHARACTER_FRAME_WIDTH = 53;
 const double CHARACTER_FRAME_HEIGHT = 57;
 const double GROUND_ENEMY_FRAME_WIDTH = 29.25;
 const double GROUND_ENEMY_FRAME_HEIGHT = 57;
-const double FLYING_ENEMY_FRAME_WIDTH = 64.25;
-const double FLYING_ENEMY_FRAME_HEIGHT = 30;
+const double FLYING_ENEMY_FRAME_WIDTH = 37;
+const double FLYING_ENEMY_FRAME_HEIGHT = 55;
 
 const double PLAY_BUTON_POSX = 390;
 const double PLAY_BUTTON_POSY = 180;

@@ -4,7 +4,7 @@
 #include "LTexture.h"
 
 #define ENEMY_MAX_HEIGHT 200
-#define ENEMY_MIN_HEIGHT 300
+#define ENEMY_MIN_HEIGHT 250
 
 #define ENEMY_POSITION_RANGE 250
 
